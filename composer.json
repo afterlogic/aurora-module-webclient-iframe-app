@@ -1,9 +1,9 @@
 {
-	"name": "afterlogic/aurora-module-iframe-app-custom-credentials",
+	"name": "afterlogic/aurora-module-webclient-iframe-app",
     	"version":"0.1.0",
     	"type": "aurora-module",
     	"dist":{
-               "url":"https://github.com/afterlogic/aurora-module-iframe-app-custom-credentials/archive/master.zip",
+               "url":"https://github.com/afterlogic/aurora-module-webclient-iframe-app/archive/master.zip",
                 "type":"zip"
         },
 	"require":{
@@ -11,6 +11,6 @@
 		"afterlogic/aurora-framework": "~0.1"
 	},
 	"extra": {
-		"installer-name": "IframeAppCustomCredentials"
+		"installer-name": "WebclientIframeApp"
 	}
 }
