@@ -4,12 +4,15 @@ class IframeAppWebclientModule extends AApiModule
 {
 	public $oApiIframeAppManager = null;
 	
+	protected $aSettingsMap = array(
+		'ShowCredentials' => array(true, 'bool')
+	);
+	
 	public function init() 
 	{
 		$this->oApiIframeAppManager = $this->GetManager();
 		
 		$this->setObjectMap('CUser', array(
-				'EnableModule' => array('bool', true),
 				'Login' => array('string', ''),
 				'Password' => array('string', '')
 			)
@@ -25,19 +28,66 @@ class IframeAppWebclientModule extends AApiModule
 	{
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		$oUser = \CApi::getAuthenticatedUser();
-		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+		if ($this->getConfig('ShowCredentials', false))
+		{
+			$oUser = \CApi::getAuthenticatedUser();
+			if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser))
+			{
+				return array(
+					'ShowCredentials' => true,
+					'Login' => $oUser->{$this->GetName().'::Login'},
+					'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+				);
+			}
+		}
+		else
 		{
 			return array(
-				'EnableModule' => (bool) $oUser->{$this->GetName().'::EnableModule'},
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+				'ShowCredentials' => false,
 			);
 		}
 		
 		return null;
 	}
 	
+	/**
+	 * Updates module settings.
+	 * 
+	 * @param bool $ShowCredentials
+	 * @param string $Login
+	 * @param string $Password
+	 * @return bool
+	 */
+	public function UpdateSettings($ShowCredentials = null, $Login = '', $Password = '')
+	{
+		if (is_bool($ShowCredentials))
+		{
+			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+			
+			$this->setConfig('ShowCredentials', $ShowCredentials);
+			return $this->saveModuleConfig();
+		}
+		
+		if (!empty($Login) && !empty($Password))
+		{
+			\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+			$oUser = \CApi::getAuthenticatedUser();
+			if ($oUser)
+			{
+				$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+				$oUser->{$this->GetName().'::Login'} = $Login;
+				$oUser->{$this->GetName().'::Password'} = $Password;
+				return $oCoreDecorator->UpdateUserObject($oUser);
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Obtains user credentials.
+	 * @return array
+	 */
 	public function GetCredentials()
 	{
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
@@ -55,33 +105,60 @@ class IframeAppWebclientModule extends AApiModule
 	}
 	
 	/**
-	 * Updates module settings.
-	 * 
-	 * @param boolean $EnableModule indicates if user turned module on.
-	 * @param string $Login
-	 * @param string $Password
-	 * @return boolean
+	 * Obtains per user settings for superadmin.
+	 * @param int $UserId
+	 * @return array
 	 */
-	public function UpdateSettings($EnableModule, $Login = '', $Password = '')
+	public function GetPerUserSettings($UserId)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 		
-		$iUserId = \CApi::getAuthenticatedUserId();
-		if (0 < $iUserId)
+		$oUser = null;
+		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		if ($oCoreDecorator)
 		{
-			$oCoreDecorator = \CApi::GetModuleDecorator('Core');
-			$oUser = $oCoreDecorator->GetUser($iUserId);
-			$oUser->{$this->GetName().'::EnableModule'} = $EnableModule;
-			if (!empty($Login))
-			{
-				$oUser->{$this->GetName().'::Login'} = $Login;
-			}
-			if (!empty($Password))
-			{
-				$oUser->{$this->GetName().'::Password'} = $Password;
-			}
-			$oCoreDecorator->UpdateUserObject($oUser);
+			$oUser = $oCoreDecorator->GetUser($UserId);
 		}
-		return true;
+		if ($oUser)
+		{
+			return array(
+				'EnableModule' => $this->isEnabledForEntity($oUser),
+			);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Updaters per user settings for superadmin.
+	 * 
+	 * @param int $UserId
+	 * @param bool $EnableModule
+	 * @return bool
+	 */
+	public function UpdatePerUserSettings($UserId, $EnableModule)
+	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		
+		$oUser = null;
+		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		if ($oCoreDecorator)
+		{
+			$oUser = $oCoreDecorator->GetUser($UserId);
+		}
+		if ($oUser)
+		{
+			if ($EnableModule)
+			{
+				$this->setEnabledForEntity($oUser);
+			}
+			else
+			{
+				$this->setDisabledForEntity($oUser);
+			}
+			return true;
+		}
+		
+		return false;
 	}
 }

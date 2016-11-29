@@ -1,31 +1,60 @@
 'use strict';
 
 module.exports = function (oAppData) {
-	var App = require('%PathToCoreWebclientModule%/js/App.js');
+	var
+		_ = require('underscore'),
+
+		App = require('%PathToCoreWebclientModule%/js/App.js'),
+		
+		TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
+
+		Settings = require('modules/%ModuleName%/js/Settings.js'),
+		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {})
+	;
 	
+	Settings.init(oSettings);
+	
+	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
+	{
+		return {
+			/**
+			 * Registers admin settings tabs before application start.
+			 * 
+			 * @param {Object} ModulesManager
+			 */
+			start: function (ModulesManager)
+			{
+				ModulesManager.run('AdminPanelWebclient', 'registerAdminPanelTab', [
+					function () { return require('modules/%ModuleName%/js/views/PerUserAdminSettingsView.js'); },
+					Settings.HashModuleName + '-user',
+					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
+				]);
+				ModulesManager.run('AdminPanelWebclient', 'registerAdminPanelTab', [
+					function () { return require('modules/%ModuleName%/js/views/AdminSettingsView.js'); },
+					Settings.HashModuleName + '-system',
+					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
+				]);
+			}
+		};
+	}
 	if (App.getUserRole() === Enums.UserRole.NormalUser || App.getUserRole() === Enums.UserRole.Customer)
 	{
-		var
-			_ = require('underscore'),
-
-			TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
-
-			Settings = require('modules/%ModuleName%/js/Settings.js'),
-			oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {})
-		;
-
-		Settings.init(oSettings);
-		
 		return {
-			enableModule: Settings.enableModule,
-
 			/**
 			 * Registers settings tab before application start.
 			 * 
 			 * @param {Object} ModulesManager
 			 */
-			start: function (ModulesManager) {
-				ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); }, Settings.HashModuleName, TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')]);
+			start: function (ModulesManager)
+			{
+				if (Settings.ShowCredentials)
+				{
+					ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
+						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },
+						Settings.HashModuleName,
+						TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
+					]);
+				}
 			},
 
 			/**
@@ -33,7 +62,8 @@ module.exports = function (oAppData) {
 			 * 
 			 * @returns {Object}
 			 */
-			getScreens: function () {
+			getScreens: function ()
+			{
 				var oScreens = {};
 				oScreens[Settings.HashModuleName] = function () {
 					return require('modules/%ModuleName%/js/views/MainView.js');
@@ -46,7 +76,8 @@ module.exports = function (oAppData) {
 			 * 
 			 * @returns {Object}
 			 */
-			getHeaderItem: function () {
+			getHeaderItem: function ()
+			{
 				var CHeaderItemView = require('%PathToCoreWebclientModule%/js/views/CHeaderItemView.js');
 
 				return {
