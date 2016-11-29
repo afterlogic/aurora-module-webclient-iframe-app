@@ -15,7 +15,7 @@ module.exports = function (oAppData) {
 		;
 
 		Settings.init(oSettings);
-
+		
 		return {
 			enableModule: Settings.enableModule,
 

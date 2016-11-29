@@ -1,6 +1,6 @@
 <?php
 
-class IframeAppCustomCredentialsModule extends AApiModule
+class IframeAppWebclientModule extends AApiModule
 {
 	public $oApiIframeAppManager = null;
 	
@@ -31,6 +31,22 @@ class IframeAppCustomCredentialsModule extends AApiModule
 			return array(
 				'EnableModule' => (bool) $oUser->{$this->GetName().'::EnableModule'},
 				'Login' => $oUser->{$this->GetName().'::Login'},
+				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+			);
+		}
+		
+		return null;
+	}
+	
+	public function GetCredentials()
+	{
+		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		
+		$oUser = \CApi::getAuthenticatedUser();
+		if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+		{
+			return array(
+				'Login' => $oUser->{$this->GetName().'::Login'},
 				'Password' => $oUser->{$this->GetName().'::Password'},
 			);
 		}
@@ -46,7 +62,7 @@ class IframeAppCustomCredentialsModule extends AApiModule
 	 * @param string $Password
 	 * @return boolean
 	 */
-	public function UpdateSettings($EnableModule, $Login, $Password)
+	public function UpdateSettings($EnableModule, $Login = '', $Password = '')
 	{
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
@@ -56,8 +72,14 @@ class IframeAppCustomCredentialsModule extends AApiModule
 			$oCoreDecorator = \CApi::GetModuleDecorator('Core');
 			$oUser = $oCoreDecorator->GetUser($iUserId);
 			$oUser->{$this->GetName().'::EnableModule'} = $EnableModule;
-			$oUser->{$this->GetName().'::Login'} = $Login;
-			$oUser->{$this->GetName().'::Password'} = $Password;
+			if (!empty($Login))
+			{
+				$oUser->{$this->GetName().'::Login'} = $Login;
+			}
+			if (!empty($Password))
+			{
+				$oUser->{$this->GetName().'::Password'} = $Password;
+			}
 			$oCoreDecorator->UpdateUserObject($oUser);
 		}
 		return true;

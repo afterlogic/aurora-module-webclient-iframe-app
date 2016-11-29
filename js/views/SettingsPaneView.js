@@ -23,7 +23,7 @@ function CSettingsPaneView()
 	this.enableModule = ko.observable(Settings.enableModule());
 	
 	this.login = ko.observable(Settings.Login);
-	this.pass = ko.observable(Settings.Password);
+	this.pass = ko.observable(Settings.HasPassword ? '******' : '');
 }
 
 _.extendOwn(CSettingsPaneView.prototype, CAbstractSettingsFormView.prototype);
@@ -54,7 +54,7 @@ CSettingsPaneView.prototype.revertGlobalValues = function ()
 {
 	this.enableModule(Settings.enableModule());
 	this.login(Settings.Login);
-	this.pass(Settings.Password);
+	this.pass(Settings.HasPassword ? '******' : '');
 };
 
 /**
@@ -64,11 +64,20 @@ CSettingsPaneView.prototype.revertGlobalValues = function ()
  */
 CSettingsPaneView.prototype.getParametersForSave = function ()
 {
-	return {
-		'EnableModule': this.enableModule(),
-		'Login': this.login(),
-		'Password': this.pass()
-	};
+	if (this.pass() !== '******' && this.login() !== '')
+	{
+		return {
+			'EnableModule': this.enableModule(),
+			'Login': this.login(),
+			'Password': this.pass()
+		};
+	}
+	else
+	{
+		return {
+			'EnableModule': this.enableModule()
+		};
+	}
 };
 
 /**
@@ -78,7 +87,7 @@ CSettingsPaneView.prototype.getParametersForSave = function ()
  */
 CSettingsPaneView.prototype.applySavedValues = function (oParameters)
 {
-	Settings.update(oParameters.EnableModule, oParameters.Login, oParameters.Password);
+	Settings.update(oParameters.EnableModule, oParameters.Login, true);
 };
 
 module.exports = new CSettingsPaneView();

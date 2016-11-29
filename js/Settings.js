@@ -3,8 +3,8 @@
 var ko = require('knockout');
 
 module.exports = {
-	ServerModuleName: 'IframeAppCustomCredentials',
-	HashModuleName: 'iframe-app-custom-credentials',
+	ServerModuleName: 'IframeAppWebclient',
+	HashModuleName: 'iframe-app',
 	
 	/**
 	 * Setting indicates if module is enabled by user or not.
@@ -14,7 +14,7 @@ module.exports = {
 	enableModule: ko.observable(false),
 	
 	Login: '',
-	Password: '',
+	HasPassword: false,
 	
 	/**
 	 * Initializes settings of the module.
@@ -26,7 +26,7 @@ module.exports = {
 		{
 			this.enableModule(!!oAppDataSection.EnableModule);
 			this.Login = oAppDataSection.Login;
-			this.Password = oAppDataSection.Password;
+			this.HasPassword = !!oAppDataSection.HasPassword;
 		}
 	},
 	
@@ -35,11 +35,11 @@ module.exports = {
 	 * 
 	 * @param {boolean} bEnableModule New value of setting 'EnableModule'
 	 * @param {string} sLogin New value of setting 'Login'
-	 * @param {string} sPassword New value of setting 'Password'
+	 * @param {boolean} bHasPassword Indicates if user has custom password
 	 */
-	update: function (bEnableModule, sLogin, sPassword) {
+	update: function (bEnableModule, sLogin, bHasPassword) {
 		this.enableModule(bEnableModule);
 		this.Login = sLogin;
-		this.Password = sPassword;
+		this.HasPassword = bHasPassword;
 	}
 };
