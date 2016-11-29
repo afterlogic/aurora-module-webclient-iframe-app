@@ -11,6 +11,6 @@
 		"afterlogic/aurora-framework": "~0.1"
 	},
 	"extra": {
-		"installer-name": "WebclientIframeApp"
+		"installer-name": "IframeAppWebclient"
 	}
 }
