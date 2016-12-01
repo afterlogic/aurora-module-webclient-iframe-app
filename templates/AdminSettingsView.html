@@ -6,12 +6,9 @@
 		<div class="fields">
 			<div class="fieldset">
 				<div class="row"> 
+					<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_AUTH_MODE'}"></span>
 					<span class="value">
-						<label class="custom_checkbox" data-bind="css: {'checked': showCredentials}">
-							<span class="icon"></span>
-							<input type="checkbox" id="showCredentials" data-bind="checked: showCredentials" />
-						</label>
-						<label for="showCredentials" data-bind="i18n: {'key': '%MODULENAME%/LABEL_SHOW_CREDENTIALS'}"></label>
+						<select class="value input" data-bind="options: authModeOptions, optionsText: 'label', optionsValue: 'value', value: authMode"></select>
 					</span>
 				</div>
 			</div>

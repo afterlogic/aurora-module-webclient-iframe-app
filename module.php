@@ -5,11 +5,13 @@ class IframeAppWebclientModule extends AApiModule
 	public $oApiIframeAppManager = null;
 	
 	protected $aSettingsMap = array(
-		'ShowCredentials' => array(true, 'bool')
+		'AuthMode' => array(0, 'int'),
 	);
 	
 	public function init() 
 	{
+		$this->incClass('enum');
+		
 		$this->oApiIframeAppManager = $this->GetManager();
 		
 		$this->setObjectMap('CUser', array(
@@ -28,22 +30,14 @@ class IframeAppWebclientModule extends AApiModule
 	{
 		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		if ($this->getConfig('ShowCredentials', false))
-		{
-			$oUser = \CApi::getAuthenticatedUser();
-			if (!empty($oUser) && $oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser))
-			{
-				return array(
-					'ShowCredentials' => true,
-					'Login' => $oUser->{$this->GetName().'::Login'},
-					'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
-				);
-			}
-		}
-		else
+		$oUser = \CApi::getAuthenticatedUser();
+		if (!empty($oUser) && ($oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \EUserRole::SuperAdmin))
 		{
 			return array(
-				'ShowCredentials' => false,
+				'Login' => $oUser->{$this->GetName().'::Login'},
+				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
+				'AuthMode' => $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication),
 			);
 		}
 		
@@ -53,18 +47,19 @@ class IframeAppWebclientModule extends AApiModule
 	/**
 	 * Updates module settings.
 	 * 
-	 * @param bool $ShowCredentials
+	 * @param int $AuthMode
 	 * @param string $Login
 	 * @param string $Password
 	 * @return bool
 	 */
-	public function UpdateSettings($ShowCredentials = null, $Login = '', $Password = '')
+	public function UpdateSettings($AuthMode = null, $Login = '', $Password = '')
 	{
-		if (is_bool($ShowCredentials))
+		if (is_numeric($AuthMode))
 		{
 			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 			
-			$this->setConfig('ShowCredentials', $ShowCredentials);
+			$this->setConfig('AuthMode', $AuthMode);
+			
 			return $this->saveModuleConfig();
 		}
 		

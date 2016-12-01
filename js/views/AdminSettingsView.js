@@ -4,6 +4,8 @@ var
 	_ = require('underscore'),
 	ko = require('knockout'),
 	
+	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
+	
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 	CAbstractSettingsFormView = ModulesManager.run('AdminPanelWebclient', 'getAbstractSettingsFormViewClass'),
 	
@@ -17,8 +19,27 @@ function CAdminSettingsView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 	
+	this.authModeOptions = [
+		{
+			label: TextUtils.i18n('%MODULENAME%/LABEL_NO_AUTH'),
+			value: Enums.IframeAppAuthMode.NoAuthentication
+		},
+		{
+			label: TextUtils.i18n('%MODULENAME%/LABEL_AURORA_CREDS'),
+			value: Enums.IframeAppAuthMode.AuroraUserCredentials
+		},
+		{
+			label: TextUtils.i18n('%MODULENAME%/LABEL_CUSTOM_CREDS_BY_USER'),
+			value: Enums.IframeAppAuthMode.CustomCredentialsSetByUser
+		},
+		{
+			label: TextUtils.i18n('%MODULENAME%/LABEL_CUSTOM_CREDS_BY_ADMIN'),
+			value: Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin
+		}
+	];
+	
 	/* Editable fields */
-	this.showCredentials = ko.observable(Settings.ShowCredentials);
+	this.authMode = ko.observable(Settings.AuthMode);
 	/*-- Editable fields */
 }
 
@@ -29,19 +50,19 @@ CAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_AdminSettingsView';
 CAdminSettingsView.prototype.getCurrentValues = function()
 {
 	return [
-		this.showCredentials()
+		this.authMode()
 	];
 };
 
 CAdminSettingsView.prototype.revertGlobalValues = function()
 {
-	this.showCredentials(Settings.ShowCredentials);
+	this.authMode(Settings.AuthMode);
 };
 
 CAdminSettingsView.prototype.getParametersForSave = function ()
 {
 	return {
-		'ShowCredentials': this.showCredentials()
+		'AuthMode': this.authMode()
 	};
 };
 
@@ -52,7 +73,7 @@ CAdminSettingsView.prototype.getParametersForSave = function ()
  */
 CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 {
-	Settings.updateAdmin(oParameters.ShowCredentials);
+	Settings.updateAdmin(oParameters.AuthMode);
 };
 
 /**

@@ -14,6 +14,8 @@ module.exports = function (oAppData) {
 	
 	Settings.init(oSettings);
 	
+	require('modules/%ModuleName%/js/enums.js');
+	
 	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
 	{
 		return {
@@ -25,12 +27,28 @@ module.exports = function (oAppData) {
 			start: function (ModulesManager)
 			{
 				ModulesManager.run('AdminPanelWebclient', 'registerAdminPanelTab', [
-					function () { return require('modules/%ModuleName%/js/views/PerUserAdminSettingsView.js'); },
+					function(resolve) {
+						require.ensure(
+							['modules/%ModuleName%/js/views/PerUserAdminSettingsView.js'],
+							function() {
+								resolve(require('modules/%ModuleName%/js/views/PerUserAdminSettingsView.js'));
+							},
+							"admin-bundle"
+						);
+					},
 					Settings.HashModuleName + '-user',
 					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 				]);
 				ModulesManager.run('AdminPanelWebclient', 'registerAdminPanelTab', [
-					function () { return require('modules/%ModuleName%/js/views/AdminSettingsView.js'); },
+					function(resolve) {
+						require.ensure(
+							['modules/%ModuleName%/js/views/AdminSettingsView.js'],
+							function() {
+								resolve(require('modules/%ModuleName%/js/views/AdminSettingsView.js'));
+							},
+							"admin-bundle"
+						);
+					},
 					Settings.HashModuleName + '-system',
 					TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 				]);
@@ -47,7 +65,7 @@ module.exports = function (oAppData) {
 			 */
 			start: function (ModulesManager)
 			{
-				if (Settings.ShowCredentials)
+				if (Settings.AuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByUser)
 				{
 					ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
 						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },

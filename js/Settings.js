@@ -4,7 +4,7 @@ module.exports = {
 	ServerModuleName: 'IframeAppWebclient',
 	HashModuleName: 'iframe-app',
 	
-	ShowCredentials: false,
+	AuthMode: false,
 	
 	Login: '',
 	HasPassword: false,
@@ -18,9 +18,11 @@ module.exports = {
 	{
 		if (oAppDataSection)
 		{
-			this.ShowCredentials = !!oAppDataSection.ShowCredentials;
+			this.AuthMode = oAppDataSection.AuthMode;
 			this.Login = oAppDataSection.Login;
 			this.HasPassword = !!oAppDataSection.HasPassword;
+			
+			this.EIframeAppAuthMode = oAppDataSection.EIframeAppAuthMode;
 		}
 	},
 	
@@ -39,10 +41,10 @@ module.exports = {
 	/**
 	 * Updates admin module settings after editing.
 	 * 
-	 * @param {boolean} bShowCredentials
+	 * @param {int} iAuthMode
 	 */
-	updateAdmin: function (bShowCredentials)
+	updateAdmin: function (iAuthMode)
 	{
-		this.ShowCredentials = bShowCredentials;
+		this.AuthMode = iAuthMode;
 	}
 };
