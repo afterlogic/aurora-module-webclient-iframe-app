@@ -5,6 +5,7 @@ module.exports = {
 	HashModuleName: 'iframe-app',
 	
 	AuthMode: false,
+	Url: false,
 	
 	Login: '',
 	HasPassword: false,
@@ -19,6 +20,7 @@ module.exports = {
 		if (oAppDataSection)
 		{
 			this.AuthMode = oAppDataSection.AuthMode;
+			this.Url = oAppDataSection.Url;
 			this.Login = oAppDataSection.Login;
 			this.HasPassword = !!oAppDataSection.HasPassword;
 			
@@ -43,8 +45,9 @@ module.exports = {
 	 * 
 	 * @param {int} iAuthMode
 	 */
-	updateAdmin: function (iAuthMode)
+	updateAdmin: function (iAuthMode, sUrl)
 	{
 		this.AuthMode = iAuthMode;
+		this.Url = sUrl;
 	}
 };

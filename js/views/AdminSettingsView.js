@@ -18,7 +18,7 @@ var
 function CAdminSettingsView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
-	
+	console.log(Settings);
 	this.authModeOptions = [
 		{
 			label: TextUtils.i18n('%MODULENAME%/LABEL_NO_AUTH'),
@@ -40,6 +40,7 @@ function CAdminSettingsView()
 	
 	/* Editable fields */
 	this.authMode = ko.observable(Settings.AuthMode);
+	this.url = ko.observable(Settings.Url);
 	/*-- Editable fields */
 }
 
@@ -50,19 +51,22 @@ CAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_AdminSettingsView';
 CAdminSettingsView.prototype.getCurrentValues = function()
 {
 	return [
-		this.authMode()
+		this.authMode(),
+		this.url()
 	];
 };
 
 CAdminSettingsView.prototype.revertGlobalValues = function()
 {
 	this.authMode(Settings.AuthMode);
+	this.url(Settings.Url);
 };
 
 CAdminSettingsView.prototype.getParametersForSave = function ()
 {
 	return {
-		'AuthMode': this.authMode()
+		'AuthMode': this.authMode(),
+		'Url': this.url()
 	};
 };
 
@@ -73,7 +77,7 @@ CAdminSettingsView.prototype.getParametersForSave = function ()
  */
 CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 {
-	Settings.updateAdmin(oParameters.AuthMode);
+	Settings.updateAdmin(oParameters.AuthMode, oParameters.Url);
 };
 
 /**

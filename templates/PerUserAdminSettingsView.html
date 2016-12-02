@@ -14,6 +14,20 @@
 						<label for="enableModule" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ALLOW_IFRAMEAPP'}"></label>
 					</span>
 				</div>
+				<!-- ko if: iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin -->
+				<div class="row">
+					<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_LOGIN'}"></span>
+					<span class="value">
+						<input class="input" type="text" data-bind="textInput: login, onEnter: savePerUserSettings" />
+					</span>
+				</div>
+				<div class="row">
+					<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_PASSWORD'}"></span>
+					<span class="value">
+						<input class="input" type="password" data-bind="textInput: password, onEnter: savePerUserSettings" />
+					</span>
+				</div>
+				<!-- /ko -->
 			</div>
 
 			<div class="buttons">

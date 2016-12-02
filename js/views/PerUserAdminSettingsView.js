@@ -24,9 +24,15 @@ function CPerUserAdminSettingsView()
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 	
 	this.iUserId = 0;
+	this.iAuthMode = Settings.AuthMode;
+	
+	console.log(Settings.AuthMode);
 	
 	/* Editable fields */
 	this.enableModule = ko.observable(false);
+	this.login = ko.observable('');
+	this.password = ko.observable('');
+	
 	/*-- Editable fields */
 }
 
@@ -40,6 +46,7 @@ CPerUserAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_PerUserAdminSet
 CPerUserAdminSettingsView.prototype.onRoute = function ()
 {
 	this.requestPerUserSettings();
+	this.iAuthMode = Settings.AuthMode;
 };
 
 /**
@@ -51,6 +58,12 @@ CPerUserAdminSettingsView.prototype.requestPerUserSettings = function ()
 		if (oResponse.Result)
 		{
 			this.enableModule(oResponse.Result.EnableModule);
+			
+			if (this.iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin)
+			{
+				this.login(oResponse.Result.Login);
+				this.password(oResponse.Result.HasPassword ? '******' : '');
+			}
 		}
 	}, this);
 };
@@ -61,17 +74,35 @@ CPerUserAdminSettingsView.prototype.requestPerUserSettings = function ()
 CPerUserAdminSettingsView.prototype.savePerUserSettings = function()
 {
 	this.isSaving(true);
-	Ajax.send(Settings.ServerModuleName, 'UpdatePerUserSettings', {'UserId': this.iUserId, 'EnableModule': this.enableModule()}, function (oResponse) {
-		this.isSaving(false);
-		if (!oResponse.Result)
-		{
-			Api.showErrorByCode(oResponse, TextUtils.i18n('COREWEBCLIENT/ERROR_SAVING_SETTINGS_FAILED'));
-		}
-		else
-		{
-			Screens.showReport(TextUtils.i18n('COREWEBCLIENT/REPORT_SETTINGS_UPDATE_SUCCESS'));
-		}
-	}, this);
+	
+	var oSettingsData = {
+		'UserId': this.iUserId,
+		'EnableModule': this.enableModule()
+	};
+	
+	if (this.iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin)
+	{
+		oSettingsData['Login'] = this.login();
+		oSettingsData['Password'] = this.password();
+	}
+	
+	Ajax.send(
+		Settings.ServerModuleName,
+		'UpdatePerUserSettings',
+		oSettingsData,
+		function (oResponse) {
+			this.isSaving(false);
+			if (!oResponse.Result)
+			{
+				Api.showErrorByCode(oResponse, TextUtils.i18n('COREWEBCLIENT/ERROR_SAVING_SETTINGS_FAILED'));
+			}
+			else
+			{
+				Screens.showReport(TextUtils.i18n('COREWEBCLIENT/REPORT_SETTINGS_UPDATE_SUCCESS'));
+			}
+		},
+		this
+	);
 };
 
 /**

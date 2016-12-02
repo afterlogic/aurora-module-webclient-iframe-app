@@ -83,9 +83,14 @@ module.exports = function (oAppData) {
 			getScreens: function ()
 			{
 				var oScreens = {};
-				oScreens[Settings.HashModuleName] = function () {
-					return require('modules/%ModuleName%/js/views/MainView.js');
-				};
+				
+				if (Settings.AuthMode !== Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin || (Settings.Login !== '' && Settings.HasPassword))
+				{
+					oScreens[Settings.HashModuleName] = function () {
+						return require('modules/%ModuleName%/js/views/MainView.js');
+					};
+				}
+				
 				return oScreens;
 			},
 
@@ -96,12 +101,20 @@ module.exports = function (oAppData) {
 			 */
 			getHeaderItem: function ()
 			{
-				var CHeaderItemView = require('%PathToCoreWebclientModule%/js/views/CHeaderItemView.js');
+				var 
+					CHeaderItemView = require('%PathToCoreWebclientModule%/js/views/CHeaderItemView.js'),
+					oHeaderEntry = 	{};
+				;
 
-				return {
-					item: new CHeaderItemView(TextUtils.i18n('%MODULENAME%/ACTION_SHOW_IFRAMEAPP')),
-					name: Settings.HashModuleName
-				};
+				if (Settings.AuthMode !== Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin || (Settings.Login !== '' && Settings.HasPassword))
+				{
+					oHeaderEntry = {
+						item: new CHeaderItemView(TextUtils.i18n('%MODULENAME%/ACTION_SHOW_IFRAMEAPP')),
+						name: Settings.HashModuleName
+					};
+				}
+				
+				return oHeaderEntry;
 			}
 		};
 	}
