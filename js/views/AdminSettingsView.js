@@ -18,7 +18,7 @@ var
 function CAdminSettingsView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
-	console.log(Settings);
+
 	this.authModeOptions = [
 		{
 			label: TextUtils.i18n('%MODULENAME%/LABEL_NO_AUTH'),

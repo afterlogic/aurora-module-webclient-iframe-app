@@ -26,8 +26,6 @@ function CPerUserAdminSettingsView()
 	this.iUserId = 0;
 	this.iAuthMode = Settings.AuthMode;
 	
-	console.log(Settings.AuthMode);
-	
 	/* Editable fields */
 	this.enableModule = ko.observable(false);
 	this.login = ko.observable('');
