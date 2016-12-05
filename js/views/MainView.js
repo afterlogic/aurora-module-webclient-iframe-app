@@ -31,11 +31,9 @@ function CIframeAppView()
 	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 	
-	//needs to better work with url
-	var sUrl = Settings.Url || '';
-	sUrl += sUrl.indexOf('?') >= 0 ? '&': '?';
-	
-	this.sFrameUrl = sUrl + 'authToken=' + $.cookie('AuthToken');
+	this.sFrameUrl = Settings.Url || '';
+	this.sAuthToken = Settings.AuthMode === Enums.IframeAppAuthMode.NoAuthentication ? '' : $.cookie('AuthToken');
+	this.bIframeLoaded = false;
 }
 
 _.extendOwn(CIframeAppView.prototype, CAbstractScreenView.prototype);
@@ -51,6 +49,12 @@ CIframeAppView.prototype.onShow = function ()
 	{
 		Routing.setHash(['settings', 'iframe-app']);
 		Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_EMPTY_LOGIN_RASSWORD'), {'APPNAME': 'Iframe'});
+	}
+	
+	if (!this.bIframeLoaded)
+	{
+		$("#IframeApp").submit();
+		this.bIframeLoaded = true;
 	}
 };
 
