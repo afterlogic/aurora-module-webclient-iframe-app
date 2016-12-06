@@ -5,7 +5,9 @@ class IframeAppWebclientModule extends AApiModule
 	public $oApiIframeAppManager = null;
 	
 	protected $aSettingsMap = array(
+		'AppName' => array('', 'string'),
 		'AuthMode' => array(0, 'int'),
+		'TokenMode' => array(0, 'int'),
 		'Url' => array('', 'string')
 	);
 	
@@ -39,7 +41,9 @@ class IframeAppWebclientModule extends AApiModule
 				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
 				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
 				'AuthMode' => $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication),
-				'Url' => $this->getConfig('Url', '')
+				'TokenMode' => $this->getConfig('TokenMode', 0),
+				'Url' => $this->getConfig('Url', ''),
+				'AppName' => $this->getConfig('AppName', '')
 			);
 		}
 		
@@ -54,15 +58,16 @@ class IframeAppWebclientModule extends AApiModule
 	 * @param string $Password
 	 * @return bool
 	 */
-	public function UpdateSettings($AuthMode = null, $Url = null, $Login = '', $Password = '')
+	public function UpdateSettings($AuthMode = null, $TokenMode = null,  $Url = null, $Login = '', $Password = '')
 	{
-		if (is_numeric($AuthMode) && $Url)
+		if (is_numeric($AuthMode) && is_numeric($TokenMode) && $Url)
 		{
 			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 			
 			$this->setConfig('AuthMode', $AuthMode);
+			$this->setConfig('TokenMode', $TokenMode);
 			$this->setConfig('Url', $Url);
-			
+
 			return $this->saveModuleConfig();
 		}
 		
@@ -154,14 +159,14 @@ class IframeAppWebclientModule extends AApiModule
 		{
 			$this->updateEnabledForEntity($oUser, $EnableModule);
 			
-//			if (!empty($Login) && !empty($Password))
-//			{
+			if (!empty($Login) && !empty($Password))
+			{
 				$oCoreDecorator = \CApi::GetModuleDecorator('Core');
 				$oUser->{$this->GetName().'::Login'} = $Login;
 				$oUser->{$this->GetName().'::Password'} = $Password;
 				
 				return $oCoreDecorator->UpdateUserObject($oUser);
-//			}
+			}
 			
 //			return true;
 		}

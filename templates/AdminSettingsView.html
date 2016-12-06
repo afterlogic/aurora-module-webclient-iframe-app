@@ -12,6 +12,12 @@
 					</span>
 				</div>
 				<div class="row"> 
+					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_TOKEN_MODE'}"></span>
+					<span class="value">
+						<select class="value input" data-bind="options: tokenModeOptions, optionsText: 'label', optionsValue: 'value', value: tokenMode"></select>
+					</span>
+				</div>
+				<div class="row"> 
 					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_IFRAME_URL'}"></span>
 					<span class="value">
 						<input class="value input" data-bind="textInput: url" />

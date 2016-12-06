@@ -43,12 +43,15 @@ CIframeAppView.prototype.ViewConstructorName = 'CIframeAppView';
 
 CIframeAppView.prototype.onShow = function ()
 {
-	var Routing = require('%PathToCoreWebclientModule%/js/Routing.js');
+	var 
+		Routing = require('%PathToCoreWebclientModule%/js/Routing.js'),
+		sAppHash = Settings.AppName !== '' ?  Settings.AppName.toLowerCase() : Settings.HashModuleName
+	;
 	
 	if (Settings.AuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByUser && !(Settings.Login !== '' && Settings.HasPassword))
 	{
-		Routing.setHash(['settings', 'iframe-app']);
-		Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_EMPTY_LOGIN_RASSWORD'), {'APPNAME': 'Iframe'});
+		Routing.setHash(['settings', sAppHash]);
+		Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_EMPTY_LOGIN_RASSWORD', {'APPNAME': Settings.AppName}));
 	}
 	
 	if (!this.bIframeLoaded)
