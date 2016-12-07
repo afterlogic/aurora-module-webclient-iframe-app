@@ -170,7 +170,7 @@ class IframeAppWebclientModule extends AApiModule
 				return $oCoreDecorator->UpdateUserObject($oUser);
 			}
 			
-//			return true;
+			return true;
 		}
 		
 		return false;
