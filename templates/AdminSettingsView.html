@@ -11,7 +11,7 @@
 						<select class="value input" data-bind="options: authModeOptions, optionsText: 'label', optionsValue: 'value', value: authMode"></select>
 					</span>
 				</div>
-				<div class="row"> 
+				<div class="row" data-bind="visible: authMode !== Enums.IframeAppAuthMode.NoAuthentication"> 
 					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_TOKEN_MODE'}"></span>
 					<span class="value">
 						<select class="value input" data-bind="options: tokenModeOptions, optionsText: 'label', optionsValue: 'value', value: tokenMode"></select>

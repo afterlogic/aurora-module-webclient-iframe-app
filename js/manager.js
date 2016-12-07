@@ -16,7 +16,7 @@ module.exports = function (oAppData) {
 	
 	require('modules/%ModuleName%/js/enums.js');
 	
-	var sAppHash = Settings.AppName !== '' ?  Settings.AppName.toLowerCase() : Settings.HashModuleName; 
+	var sAppHash = Settings.AppName ?  Settings.AppName.toLowerCase() : Settings.HashModuleName; 
 	
 	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
 	{

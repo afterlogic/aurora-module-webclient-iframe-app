@@ -31,9 +31,23 @@ function CIframeAppView()
 	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 	
-	this.sFrameUrl = Settings.Url || '';
 	this.sAuthToken = Settings.AuthMode === Enums.IframeAppAuthMode.NoAuthentication ? '' : $.cookie('AuthToken');
-	this.bIframeLoaded = false;
+	this.iTokenMode = Settings.TokenMode;
+	
+	var 
+		sFrameUrl = Settings.Url || '',
+		aFrameUrlParts = sFrameUrl.split('?'),
+		aUrlParams = aFrameUrlParts[1] ? aFrameUrlParts[1].split('&') : []
+	;
+	
+	if (this.sAuthToken !== '' && Settings.TokenMode === Enums.EIframeAppTokenMode.GETRequest)
+	{
+		aUrlParams.push('AuthToken=' + this.sAuthToken);
+	}
+	
+	this.sFrameUrl = aFrameUrlParts[0] + (aUrlParams.length > 0 ? '?' + aUrlParams.join('&') : '');
+	
+	this.bIframeLoaded = true;
 }
 
 _.extendOwn(CIframeAppView.prototype, CAbstractScreenView.prototype);

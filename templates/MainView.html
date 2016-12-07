@@ -1,8 +1,12 @@
 <div class="screen IframeApp" style="display: none;">
+	<!-- ko if: iTokenMode === Enums.EIframeAppTokenMode.POSTRequest && sAuthToken !== '' -->
 	<form id="IframeApp" data-bind="attr: {'action': sFrameUrl}" method="post" target="iframe_app">
-		<!--ko if: sAuthToken !== '' -->
-			<input type="hidden" name="authToken" data-bind="attr: {'value': sAuthToken}" />
-		<!-- /ko -->
+		<input type="hidden" name="authToken" data-bind="attr: {'value': sAuthToken}" />
 	</form>
-	<iframe name="iframe_app" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%">---</iframe>
+	<iframe name="iframe_app" frameborder="0" style="overflow:hidden;height:100%;width:100%;display:block;" height="100%" width="100%">---</iframe>
+	<!-- /ko -->
+	
+	<!-- ko if: iTokenMode !== Enums.EIframeAppTokenMode.POSTRequest -->
+	<iframe name="iframe_app" data-bind="attr: {'src': sFrameUrl}" frameborder="0" style="overflow:hidden;height:100%;width:100%;display:block;" height="100%" width="100%">---</iframe>
+	<!-- /ko -->
 </div>

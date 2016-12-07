@@ -10,6 +10,8 @@ var
 
 Enums.IframeAppAuthMode = UserSettings.EIframeAppAuthMode;
 
+Enums.EIframeAppTokenMode = UserSettings.EIframeAppTokenMode;
+
 if (typeof window.Enums === 'undefined')
 {
 	window.Enums = {};

@@ -40,6 +40,7 @@ class IframeAppWebclientModule extends AApiModule
 				'Login' => $oUser->{$this->GetName().'::Login'},
 				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
 				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
+				'EIframeAppTokenMode' => (new \EIframeAppTokenMode)->getMap(),
 				'AuthMode' => $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication),
 				'TokenMode' => $this->getConfig('TokenMode', 0),
 				'Url' => $this->getConfig('Url', ''),

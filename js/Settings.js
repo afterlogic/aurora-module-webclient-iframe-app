@@ -28,6 +28,7 @@ module.exports = {
 			this.AppName = oAppDataSection.AppName;
 			
 			this.EIframeAppAuthMode = oAppDataSection.EIframeAppAuthMode;
+			this.EIframeAppTokenMode = oAppDataSection.EIframeAppTokenMode;
 		}
 	},
 	
