@@ -40,14 +40,14 @@ function CIframeAppView()
 		aUrlParams = aFrameUrlParts[1] ? aFrameUrlParts[1].split('&') : []
 	;
 	
-	if (this.sAuthToken !== '' && Settings.TokenMode === Enums.EIframeAppTokenMode.GETRequest)
+	if (this.sAuthToken !== '' && Settings.TokenMode === Enums.IframeAppTokenMode.GETRequest)
 	{
 		aUrlParams.push('AuthToken=' + this.sAuthToken);
 	}
 	
 	this.sFrameUrl = aFrameUrlParts[0] + (aUrlParams.length > 0 ? '?' + aUrlParams.join('&') : '');
 	
-	this.bIframeLoaded = true;
+	this.bIframeLoaded = false;
 }
 
 _.extendOwn(CIframeAppView.prototype, CAbstractScreenView.prototype);

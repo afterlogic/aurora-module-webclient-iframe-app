@@ -5,6 +5,7 @@ var
 	ko = require('knockout'),
 	
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
+	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
 	CAbstractSettingsFormView = ModulesManager.run('SettingsWebclient', 'getAbstractSettingsFormViewClass'),
 	
 	Settings = require('modules/%ModuleName%/js/Settings.js')
@@ -20,6 +21,7 @@ function CSettingsPaneView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 
+	this.sAppName = Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB');
 	this.login = ko.observable(Settings.Login);
 	this.pass = ko.observable(Settings.HasPassword ? '******' : '');
 }

@@ -21,39 +21,40 @@ function CAdminSettingsView()
 
 	this.authModeOptions = [
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_NO_AUTH'),
+			label: TextUtils.i18n('%MODULENAME%/OPTION_NO_AUTH'),
 			value: Enums.IframeAppAuthMode.NoAuthentication
 		},
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_AURORA_CREDS'),
+			label: TextUtils.i18n('%MODULENAME%/OPTION_AURORA_CREDS'),
 			value: Enums.IframeAppAuthMode.AuroraUserCredentials
 		},
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_CUSTOM_CREDS_BY_USER'),
+			label: TextUtils.i18n('%MODULENAME%/OPTION_CUSTOM_CREDS_BY_USER'),
 			value: Enums.IframeAppAuthMode.CustomCredentialsSetByUser
 		},
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_CUSTOM_CREDS_BY_ADMIN'),
+			label: TextUtils.i18n('%MODULENAME%/OPTION_CUSTOM_CREDS_BY_ADMIN'),
 			value: Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin
 		}
 	];
 	
 	this.tokenModeOptions = [
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_COOKIE'),
-			value: 0
+			label: TextUtils.i18n('%MODULENAME%/OPTION_COOKIE_ONLY'),
+			value: Enums.IframeAppTokenMode.CookieOnly
 		},
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_GET'),
-			value: 1
+			label: TextUtils.i18n('%MODULENAME%/OPTION_GET_REQUEST'),
+			value: Enums.IframeAppTokenMode.GETRequest
 		},
 		{
-			label: TextUtils.i18n('%MODULENAME%/LABEL_POST'),
-			value: 2
+			label: TextUtils.i18n('%MODULENAME%/OPTION_POST_REQUEST'),
+			value: Enums.IframeAppTokenMode.POSTRequest
 		}
 	];
 
 	/* Editable fields */
+	this.appName = ko.observable(Settings.AppName);
 	this.authMode = ko.observable(Settings.AuthMode);
 	this.tokenMode = ko.observable(Settings.TokenMode);
 	this.url = ko.observable(Settings.Url);
@@ -67,6 +68,7 @@ CAdminSettingsView.prototype.ViewTemplate = '%ModuleName%_AdminSettingsView';
 CAdminSettingsView.prototype.getCurrentValues = function()
 {
 	return [
+		this.appName(),
 		this.authMode(),
 		this.tokenMode(),
 		this.url()
@@ -75,6 +77,7 @@ CAdminSettingsView.prototype.getCurrentValues = function()
 
 CAdminSettingsView.prototype.revertGlobalValues = function()
 {
+	this.appName(Settings.AppName);
 	this.authMode(Settings.AuthMode);
 	this.tokenMode(Settings.TokenMode);
 	this.url(Settings.Url);
@@ -83,6 +86,7 @@ CAdminSettingsView.prototype.revertGlobalValues = function()
 CAdminSettingsView.prototype.getParametersForSave = function ()
 {
 	return {
+		'AppName': this.appName(),
 		'AuthMode': this.authMode(),
 		'TokenMode': this.tokenMode(),
 		'Url': this.url()
@@ -96,7 +100,7 @@ CAdminSettingsView.prototype.getParametersForSave = function ()
  */
 CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 {
-	Settings.updateAdmin(oParameters.AuthMode, oParameters.Url);
+	Settings.updateAdmin(oParameters.AppName, oParameters.AuthMode, oParameters.TokenMode, oParameters.Url);
 };
 
 /**

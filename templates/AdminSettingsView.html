@@ -6,12 +6,18 @@
 		<div class="fields">
 			<div class="fieldset">
 				<div class="row"> 
+					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_APP_NAME'}"></span>
+					<span class="value">
+						<input class="value input" data-bind="textInput: appName" />
+					</span>
+				</div>
+				<div class="row"> 
 					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_AUTH_MODE'}"></span>
 					<span class="value">
 						<select class="value input" data-bind="options: authModeOptions, optionsText: 'label', optionsValue: 'value', value: authMode"></select>
 					</span>
 				</div>
-				<div class="row" data-bind="visible: authMode !== Enums.IframeAppAuthMode.NoAuthentication"> 
+				<div class="row" data-bind="visible: authMode() !== Enums.IframeAppAuthMode.NoAuthentication"> 
 					<span class="label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_TOKEN_MODE'}"></span>
 					<span class="value">
 						<select class="value input" data-bind="options: tokenModeOptions, optionsText: 'label', optionsValue: 'value', value: tokenMode"></select>

@@ -16,7 +16,7 @@ module.exports = function (oAppData) {
 	
 	require('modules/%ModuleName%/js/enums.js');
 	
-	var sAppHash = Settings.AppName ?  Settings.AppName.toLowerCase() : Settings.HashModuleName; 
+	var sAppHash = Settings.AppName ? Settings.AppName.toLowerCase() : Settings.HashModuleName; 
 	
 	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
 	{
@@ -73,7 +73,7 @@ module.exports = function (oAppData) {
 						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },
 //						Settings.HashModuleName,
 						sAppHash,
-						TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
+						Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 					]);
 				}
 			},
@@ -115,7 +115,7 @@ module.exports = function (oAppData) {
 					oHeaderEntry = {
 //						item: new CHeaderItemView(TextUtils.i18n('%MODULENAME%/ACTION_SHOW_IFRAMEAPP')),
 //						name: Settings.HashModuleName
-						item: new CHeaderItemView(Settings.AppName),
+						item: new CHeaderItemView(Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')),
 						name: sAppHash
 					};
 				}

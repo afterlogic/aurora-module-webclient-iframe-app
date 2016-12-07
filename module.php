@@ -59,12 +59,13 @@ class IframeAppWebclientModule extends AApiModule
 	 * @param string $Password
 	 * @return bool
 	 */
-	public function UpdateSettings($AuthMode = null, $TokenMode = null,  $Url = null, $Login = '', $Password = '')
+	public function UpdateSettings($AppName = null, $AuthMode = null, $TokenMode = null,  $Url = null, $Login = '', $Password = '')
 	{
 		if (is_numeric($AuthMode) && is_numeric($TokenMode) && $Url)
 		{
 			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 			
+			$this->setConfig('AppName', $AppName);
 			$this->setConfig('AuthMode', $AuthMode);
 			$this->setConfig('TokenMode', $TokenMode);
 			$this->setConfig('Url', $Url);
