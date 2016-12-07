@@ -42,7 +42,7 @@ function CIframeAppView()
 	
 	if (this.sAuthToken !== '' && Settings.TokenMode === Enums.IframeAppTokenMode.GETRequest)
 	{
-		aUrlParams.push('AuthToken=' + this.sAuthToken);
+		aUrlParams.push('authToken=' + this.sAuthToken);
 	}
 	
 	this.sFrameUrl = aFrameUrlParts[0] + (aUrlParams.length > 0 ? '?' + aUrlParams.join('&') : '');
