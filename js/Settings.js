@@ -4,6 +4,7 @@ module.exports = {
 	ServerModuleName: 'IframeAppWebclient',
 	HashModuleName: 'iframe-app',
 	
+	AppName: '',
 	AuthMode: false,
 	TokenMode: false,
 	Url: false,
@@ -49,8 +50,9 @@ module.exports = {
 	 * 
 	 * @param {int} iAuthMode
 	 */
-	updateAdmin: function (iAuthMode, iTokenMode, sUrl)
+	updateAdmin: function (sAppName, iAuthMode, iTokenMode, sUrl)
 	{
+		this.AppName = sAppName;
 		this.AuthMode = iAuthMode;
 		this.TokenMode = iTokenMode;
 		this.Url = sUrl;
