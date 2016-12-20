@@ -1,8 +1,9 @@
 'use strict';
+var TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js');
 
 module.exports = {
-	ServerModuleName: 'IframeAppWebclient',
-	HashModuleName: 'iframe-app',
+	ServerModuleName: '%ModuleName%',
+	HashModuleName: TextUtils.getUrlFriendlyName('%ModuleName%'), /*'iframe-app',*/
 	
 	AppName: '',
 	AuthMode: false,

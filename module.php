@@ -2,8 +2,6 @@
 
 class IframeAppWebclientModule extends AApiModule
 {
-	public $oApiIframeAppManager = null;
-	
 	protected $aSettingsMap = array(
 		'AppName' => array('', 'string'),
 		'AuthMode' => array(0, 'int'),
@@ -14,8 +12,6 @@ class IframeAppWebclientModule extends AApiModule
 	public function init() 
 	{
 		$this->incClass('enum');
-		
-		$this->oApiIframeAppManager = $this->GetManager();
 		
 		$this->setObjectMap('CUser', array(
 				'Login' => array('string', ''),
@@ -163,7 +159,6 @@ class IframeAppWebclientModule extends AApiModule
 			
 			if (!empty($Login) && !empty($Password))
 			{
-				$oCoreDecorator = \CApi::GetModuleDecorator('Core');
 				$oUser->{$this->GetName().'::Login'} = $Login;
 				$oUser->{$this->GetName().'::Password'} = $Password;
 				

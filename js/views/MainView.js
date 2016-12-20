@@ -20,7 +20,7 @@ var
  * 
  * @constructor
  */
-function CIframeAppView()
+function CMainView()
 {
 	CAbstractScreenView.call(this, '%ModuleName%');
 	
@@ -47,15 +47,17 @@ function CIframeAppView()
 	
 	this.sFrameUrl = aFrameUrlParts[0] + (aUrlParams.length > 0 ? '?' + aUrlParams.join('&') : '');
 	
+	this.elForm = ko.observable(null);
+	this.sIframeName = '%ModuleName%' + 'iframe';
 	this.bIframeLoaded = false;
 }
 
-_.extendOwn(CIframeAppView.prototype, CAbstractScreenView.prototype);
+_.extendOwn(CMainView.prototype, CAbstractScreenView.prototype);
 
-CIframeAppView.prototype.ViewTemplate = '%ModuleName%_MainView';
-CIframeAppView.prototype.ViewConstructorName = 'CIframeAppView';
+CMainView.prototype.ViewTemplate = '%ModuleName%_MainView';
+CMainView.prototype.ViewConstructorName = 'CMainView';
 
-CIframeAppView.prototype.onShow = function ()
+CMainView.prototype.onShow = function ()
 {
 	var 
 		Routing = require('%PathToCoreWebclientModule%/js/Routing.js'),
@@ -68,11 +70,11 @@ CIframeAppView.prototype.onShow = function ()
 		Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_EMPTY_LOGIN_RASSWORD', {'APPNAME': Settings.AppName}));
 	}
 	
-	if (!this.bIframeLoaded)
+	if (!this.bIframeLoaded && this.elForm()[0])
 	{
-		$("#IframeApp").submit();
+		this.elForm.submit();
 		this.bIframeLoaded = true;
 	}
 };
 
-module.exports = new CIframeAppView();
+module.exports = new CMainView();
