@@ -72,7 +72,7 @@ CMainView.prototype.onShow = function ()
 	
 	if (!this.bIframeLoaded && this.elForm()[0])
 	{
-		this.elForm.submit();
+		this.elForm().submit();
 		this.bIframeLoaded = true;
 	}
 };
