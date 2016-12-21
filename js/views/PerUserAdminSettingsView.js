@@ -104,7 +104,7 @@ CPerUserAdminSettingsView.prototype.savePerUserSettings = function()
 };
 
 /**
- * Sets access level for the view via entity type and entity identificator.
+ * Sets access level for the view via entity type and entity identifier.
  * This view is visible only for User entity type.
  * 
  * @param {string} sEntityType Current entity type.

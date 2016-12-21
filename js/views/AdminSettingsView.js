@@ -104,7 +104,7 @@ CAdminSettingsView.prototype.applySavedValues = function (oParameters)
 };
 
 /**
- * Sets access level for the view via entity type and entity identificator.
+ * Sets access level for the view via entity type and entity identifier.
  * This view is visible only for empty entity type.
  * 
  * @param {string} sEntityType Current entity type.
