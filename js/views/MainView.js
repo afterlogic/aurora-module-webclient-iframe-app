@@ -70,7 +70,7 @@ CMainView.prototype.onShow = function ()
 		Screens.showError(TextUtils.i18n('%MODULENAME%/ERROR_EMPTY_LOGIN_RASSWORD', {'APPNAME': Settings.AppName}));
 	}
 	
-	if (!this.bIframeLoaded && this.elForm()[0])
+	if (!this.bIframeLoaded && this.elForm() && this.elForm()[0])
 	{
 		this.elForm().submit();
 		this.bIframeLoaded = true;
