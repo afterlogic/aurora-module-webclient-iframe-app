@@ -27,7 +27,7 @@ module.exports = {
 			this.Url = oAppDataSection.Url;
 			this.Login = oAppDataSection.Login;
 			this.HasPassword = !!oAppDataSection.HasPassword;
-			this.AppName = oAppDataSection.AppName;
+			this.AppName = oAppDataSection.AppName || TextUtils.i18n('%MODULENAME%/LABEL_APP_NAME');
 			
 			this.EIframeAppAuthMode = oAppDataSection.EIframeAppAuthMode;
 			this.EIframeAppTokenMode = oAppDataSection.EIframeAppTokenMode;
