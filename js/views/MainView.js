@@ -29,8 +29,6 @@ function CMainView()
 	 */
 	this.browserTitle = ko.observable(TextUtils.i18n('%MODULENAME%/HEADING_BROWSER_TAB'));
 	
-	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
-	
 	this.sAuthToken = Settings.AuthMode === Enums.IframeAppAuthMode.NoAuthentication ? '' : $.cookie('AuthToken');
 	this.iTokenMode = Settings.TokenMode;
 	
@@ -50,6 +48,8 @@ function CMainView()
 	this.elForm = ko.observable(null);
 	this.sIframeName = '%ModuleName%' + 'iframe';
 	this.bIframeLoaded = false;
+	
+	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 _.extendOwn(CMainView.prototype, CAbstractScreenView.prototype);
