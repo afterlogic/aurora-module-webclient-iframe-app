@@ -16,7 +16,7 @@ module.exports = function (oAppData) {
 	
 	require('modules/%ModuleName%/js/enums.js');
 	
-	var sAppHash = Settings.AppName ? Settings.AppName.toLowerCase() : Settings.HashModuleName; 
+	var sAppHash = Settings.AppName ? TextUtils.getUrlFriendlyName(Settings.AppName) : Settings.HashModuleName; 
 	
 	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
 	{
@@ -71,7 +71,6 @@ module.exports = function (oAppData) {
 				{
 					ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
 						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },
-//						Settings.HashModuleName,
 						sAppHash,
 						Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 					]);
@@ -89,7 +88,6 @@ module.exports = function (oAppData) {
 				
 				if (Settings.AuthMode !== Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin || (Settings.Login !== '' && Settings.HasPassword))
 				{
-//					oScreens[Settings.HashModuleName] = function () {
 					oScreens[sAppHash] = function () {
 						return require('modules/%ModuleName%/js/views/MainView.js');
 					};
@@ -113,8 +111,6 @@ module.exports = function (oAppData) {
 				if (Settings.AuthMode !== Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin || (Settings.Login !== '' && Settings.HasPassword))
 				{
 					oHeaderEntry = {
-//						item: new CHeaderItemView(TextUtils.i18n('%MODULENAME%/ACTION_SHOW_IFRAMEAPP')),
-//						name: Settings.HashModuleName
 						item: new CHeaderItemView(Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')),
 						name: sAppHash
 					};
