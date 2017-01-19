@@ -2,13 +2,6 @@
 
 class IframeAppWebclientModule extends AApiModule
 {
-	protected $aSettingsMap = array(
-		'AppName' => array('', 'string'),
-		'AuthMode' => array(0, 'int'),
-		'TokenMode' => array(0, 'int'),
-		'Url' => array('', 'string')
-	);
-	
 	public function init() 
 	{
 		$this->incClass('enum');

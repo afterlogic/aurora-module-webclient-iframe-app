@@ -1,0 +1,18 @@
+{
+    "AppName": [
+		"",
+		"string"
+	],
+	"AuthMode": [
+		0,
+		"int"
+	],
+	"TokenMode": [
+		0,
+		"int"
+	],
+	"Url": [
+		"",
+		"string"
+	]
+}
