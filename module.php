@@ -6,7 +6,7 @@ class IframeAppWebclientModule extends AApiModule
 	{
 		$this->incClass('enum');
 		
-		$this->setObjectMap('CUser', array(
+		$this->extendObject('CUser', array(
 				'Login' => array('string', ''),
 				'Password' => array('string', '')
 			)
