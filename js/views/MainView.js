@@ -61,7 +61,7 @@ CMainView.prototype.onShow = function ()
 {
 	var 
 		Routing = require('%PathToCoreWebclientModule%/js/Routing.js'),
-		sAppHash = Settings.AppName !== '' ?  Settings.AppName.toLowerCase() : Settings.HashModuleName
+		sAppHash = Settings.AppName !== '' ?  TextUtils.getUrlFriendlyName(Settings.AppName) : Settings.HashModuleName
 	;
 	
 	if (Settings.AuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByUser && !(Settings.Login !== '' && Settings.HasPassword))
