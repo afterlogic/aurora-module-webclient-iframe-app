@@ -1,6 +1,8 @@
 <?php
 
-class IframeAppWebclientModule extends AApiModule
+namespace Aurora\Modules;
+
+class IframeAppWebclientModule extends \AApiModule
 {
 	public function init() 
 	{
@@ -30,7 +32,7 @@ class IframeAppWebclientModule extends AApiModule
 				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
 				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
 				'EIframeAppTokenMode' => (new \EIframeAppTokenMode)->getMap(),
-				'AuthMode' => $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication),
+				'AuthMode' => $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication),
 				'TokenMode' => $this->getConfig('TokenMode', 0),
 				'Url' => $this->getConfig('Url', ''),
 				'AppName' => $this->getConfig('AppName', '')
@@ -50,7 +52,7 @@ class IframeAppWebclientModule extends AApiModule
 	 */
 	public function UpdateSettings($AppName = null, $AuthMode = null, $TokenMode = null,  $Url = null, $Login = '', $Password = '')
 	{
-		if (is_numeric($AuthMode) && is_numeric($TokenMode) && $Url)
+		if (\is_numeric($AuthMode) && \is_numeric($TokenMode) && $Url)
 		{
 			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 			
@@ -88,9 +90,9 @@ class IframeAppWebclientModule extends AApiModule
 		
 		$oUser = \CApi::getAuthenticatedUser();
 		
-		$iAuthMode = $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication);
+		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
-		if (($iAuthMode === EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === EIframeAppAuthMode::CustomCredentialsSetByAdmin)
+		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
 				&& !empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
 		{
 			return array(
