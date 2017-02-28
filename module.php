@@ -2,7 +2,7 @@
 
 namespace Aurora\Modules;
 
-class IframeAppWebclientModule extends \AApiModule
+class IframeAppWebclientModule extends \Aurora\System\AbstractModule
 {
 	public function init() 
 	{
@@ -22,9 +22,9 @@ class IframeAppWebclientModule extends \AApiModule
 	 */
 	public function GetSettings()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		if (!empty($oUser) && ($oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \EUserRole::SuperAdmin))
 		{
 			return array(
@@ -54,7 +54,7 @@ class IframeAppWebclientModule extends \AApiModule
 	{
 		if (\is_numeric($AuthMode) && \is_numeric($TokenMode) && $Url)
 		{
-			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 			
 			$this->setConfig('AppName', $AppName);
 			$this->setConfig('AuthMode', $AuthMode);
@@ -66,11 +66,11 @@ class IframeAppWebclientModule extends \AApiModule
 		
 		if (!empty($Login) && !empty($Password))
 		{
-			\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
-			$oUser = \CApi::getAuthenticatedUser();
+			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 			if ($oUser)
 			{
-				$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+				$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 				$oUser->{$this->GetName().'::Login'} = $Login;
 				$oUser->{$this->GetName().'::Password'} = $Password;
 				return $oCoreDecorator->UpdateUserObject($oUser);
@@ -86,9 +86,9 @@ class IframeAppWebclientModule extends \AApiModule
 	 */
 	public function GetCredentials()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
@@ -111,10 +111,10 @@ class IframeAppWebclientModule extends \AApiModule
 	 */
 	public function GetPerUserSettings($UserId)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
@@ -140,10 +140,10 @@ class IframeAppWebclientModule extends \AApiModule
 	 */
 	public function UpdatePerUserSettings($UserId, $EnableModule, $Login = '', $Password = '')
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
