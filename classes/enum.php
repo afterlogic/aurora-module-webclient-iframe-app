@@ -21,7 +21,7 @@
  * @package Api
  * @subpackage Enum
  */
-class EIframeAppAuthMode extends AEnumeration
+class EIframeAppAuthMode extends \AbstractEnumeration
 {
 	const NoAuthentication = 0;
 	const AuroraUserCredentials = 1;
