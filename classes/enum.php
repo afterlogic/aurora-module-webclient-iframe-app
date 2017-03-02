@@ -43,7 +43,7 @@ class EIframeAppAuthMode extends \AbstractEnumeration
  * @package Api
  * @subpackage Enum
  */
-class EIframeAppTokenMode extends AEnumeration
+class EIframeAppTokenMode extends \AbstractEnumeration
 {
 	const CookieOnly = 0;
 	const GETRequest = 1;
