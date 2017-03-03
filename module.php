@@ -2,7 +2,7 @@
 
 namespace Aurora\Modules;
 
-class IframeAppWebclientModule extends \Aurora\System\AbstractModule
+class IframeAppWebclientModule extends \Aurora\System\Module\AbstractModule
 {
 	public function init() 
 	{
