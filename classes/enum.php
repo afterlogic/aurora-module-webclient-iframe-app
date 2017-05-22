@@ -12,7 +12,7 @@
  * @package Api
  * @subpackage Enum
  */
-class EIframeAppAuthMode extends \AbstractEnumeration
+class EIframeAppAuthMode extends \Aurora\System\Enums\AbstractEnumeration
 {
 	const NoAuthentication = 0;
 	const AuroraUserCredentials = 1;
@@ -34,7 +34,7 @@ class EIframeAppAuthMode extends \AbstractEnumeration
  * @package Api
  * @subpackage Enum
  */
-class EIframeAppTokenMode extends \AbstractEnumeration
+class EIframeAppTokenMode extends \Aurora\System\Enums\AbstractEnumeration
 {
 	const CookieOnly = 0;
 	const GETRequest = 1;

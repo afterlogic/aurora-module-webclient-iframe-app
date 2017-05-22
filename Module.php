@@ -33,10 +33,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetSettings()
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
-		if (!empty($oUser) && ($oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \EUserRole::SuperAdmin))
+		if (!empty($oUser) && ($oUser->Role === \Aurora\System\Enums\UserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin))
 		{
 			return array(
 				'Login' => $oUser->{$this->GetName().'::Login'},
@@ -65,7 +65,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	{
 		if (\is_numeric($AuthMode) && \is_numeric($TokenMode) && $Url)
 		{
-			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 			
 			$this->setConfig('AppName', $AppName);
 			$this->setConfig('AuthMode', $AuthMode);
@@ -77,7 +77,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 		if (!empty($Login) && !empty($Password))
 		{
-			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 			if ($oUser)
 			{
@@ -97,14 +97,14 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetCredentials()
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
 		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
-				&& !empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			return array(
 				'Login' => $oUser->{$this->GetName().'::Login'},
@@ -122,7 +122,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetPerUserSettings($UserId)
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
 		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
@@ -151,7 +151,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function UpdatePerUserSettings($UserId, $EnableModule, $Login = '', $Password = '')
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
 		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
