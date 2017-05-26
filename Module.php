@@ -81,7 +81,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 			if ($oUser)
 			{
-				$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
+				$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
 				$oUser->{$this->GetName().'::Login'} = $Login;
 				$oUser->{$this->GetName().'::Password'} = $Password;
 				return $oCoreDecorator->UpdateUserObject($oUser);
@@ -125,7 +125,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
@@ -154,7 +154,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
