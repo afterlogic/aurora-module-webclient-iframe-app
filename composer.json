@@ -1,11 +1,13 @@
 {
 	"name": "afterlogic/aurora-module-webclient-iframe-app",
-   	"type": "aurora-module",
-	"require":{
-		"php":">=5.4.0",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=5.4.0",
 		"afterlogic/aurora-framework": "~0.1"
 	},
 	"extra": {
-		"installer-name": "IframeAppWebclient"
+		"installer-name": "IframeAppWebclient",
+		"include-in-mobile": false,
+		"include-in-desktop": true
 	}
 }
