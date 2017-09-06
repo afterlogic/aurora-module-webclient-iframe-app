@@ -17,8 +17,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
 	public function init() 
 	{
-		$this->incClass('enum');
-		
 		$this->extendObject('CUser', array(
 				'Login' => array('string', ''),
 				'Password' => array('string', '')
@@ -41,9 +39,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			return array(
 				'Login' => $oUser->{$this->GetName().'::Login'},
 				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
-				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
-				'EIframeAppTokenMode' => (new \EIframeAppTokenMode)->getMap(),
-				'AuthMode' => $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication),
+				'EIframeAppAuthMode' => (new Enums\AuthMode)->getMap(),
+				'EIframeAppTokenMode' => (new Enums\TokenMode)->getMap(),
+				'AuthMode' => $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication),
 				'TokenMode' => $this->getConfig('TokenMode', 0),
 				'Url' => $this->getConfig('Url', ''),
 				'AppName' => $this->getConfig('AppName', '')
@@ -81,10 +79,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 			if ($oUser)
 			{
-				$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
 				$oUser->{$this->GetName().'::Login'} = $Login;
 				$oUser->{$this->GetName().'::Password'} = $Password;
-				return $oCoreDecorator->UpdateUserObject($oUser);
+				return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
 			}
 		}
 		
@@ -101,9 +98,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
-		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
+		$iAuthMode = $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication);
 				
-		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
+		if (($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin)
 				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			return array(
