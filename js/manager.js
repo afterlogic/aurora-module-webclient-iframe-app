@@ -9,7 +9,9 @@ module.exports = function (oAppData) {
 		TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
 
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
-		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {})
+		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
+		
+		HeaderItemView = null
 	;
 	
 	Settings.init(oSettings);
@@ -110,8 +112,12 @@ module.exports = function (oAppData) {
 
 				if (Settings.AuthMode !== Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin || (Settings.Login !== '' && Settings.HasPassword))
 				{
+					if (HeaderItemView === null)
+					{
+						HeaderItemView = new CHeaderItemView(Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB'));
+					}
 					oHeaderEntry = {
-						item: new CHeaderItemView(Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')),
+						item: HeaderItemView,
 						name: sAppHash
 					};
 				}
