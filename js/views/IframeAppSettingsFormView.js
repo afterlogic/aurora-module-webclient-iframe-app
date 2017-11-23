@@ -17,7 +17,7 @@ var
  * 
  * @constructor
  */
-function CSettingsPaneView()
+function CIframeAppSettingsFormView()
 {
 	CAbstractSettingsFormView.call(this, Settings.ServerModuleName);
 
@@ -26,19 +26,19 @@ function CSettingsPaneView()
 	this.pass = ko.observable(Settings.HasPassword ? '******' : '');
 }
 
-_.extendOwn(CSettingsPaneView.prototype, CAbstractSettingsFormView.prototype);
+_.extendOwn(CIframeAppSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
 
 /**
  * Name of template that will be bound to this JS-object.
  */
-CSettingsPaneView.prototype.ViewTemplate = '%ModuleName%_SettingsPaneView';
+CIframeAppSettingsFormView.prototype.ViewTemplate = '%ModuleName%_IframeAppSettingsFormView';
 
 /**
  * Returns array with all settings values wich is used for indicating if there were changes on the page.
  * 
  * @returns {Array} Array with all settings values;
  */
-CSettingsPaneView.prototype.getCurrentValues = function ()
+CIframeAppSettingsFormView.prototype.getCurrentValues = function ()
 {
 	return [
 		this.login(),
@@ -49,7 +49,7 @@ CSettingsPaneView.prototype.getCurrentValues = function ()
 /**
  * Reverts all settings values to global ones.
  */
-CSettingsPaneView.prototype.revertGlobalValues = function ()
+CIframeAppSettingsFormView.prototype.revertGlobalValues = function ()
 {
 	this.login(Settings.Login);
 	this.pass(Settings.HasPassword ? '******' : '');
@@ -60,7 +60,7 @@ CSettingsPaneView.prototype.revertGlobalValues = function ()
  * 
  * @returns Object
  */
-CSettingsPaneView.prototype.getParametersForSave = function ()
+CIframeAppSettingsFormView.prototype.getParametersForSave = function ()
 {
 	if (this.pass() !== '******' && this.login() !== '')
 	{
@@ -80,9 +80,9 @@ CSettingsPaneView.prototype.getParametersForSave = function ()
  * 
  * @param {Object} oParameters Parameters with new values which were passed to the server.
  */
-CSettingsPaneView.prototype.applySavedValues = function (oParameters)
+CIframeAppSettingsFormView.prototype.applySavedValues = function (oParameters)
 {
 	Settings.update(oParameters.Login, true);
 };
 
-module.exports = new CSettingsPaneView();
+module.exports = new CIframeAppSettingsFormView();

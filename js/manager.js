@@ -72,7 +72,7 @@ module.exports = function (oAppData) {
 				if (Settings.AuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByUser)
 				{
 					ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
-						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },
+						function () { return require('modules/%ModuleName%/js/views/IframeAppSettingsFormView.js'); },
 						sAppHash,
 						Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
 					]);
