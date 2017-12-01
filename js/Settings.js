@@ -1,36 +1,43 @@
 'use strict';
-var TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js');
+var
+	_ = require('underscore'),
+	
+	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
+	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js')
+;
 
 module.exports = {
 	ServerModuleName: '%ModuleName%',
 	HashModuleName: TextUtils.getUrlFriendlyName('%ModuleName%'), /*'iframe-app',*/
 	
-	AppName: '',
-	AuthMode: false,
-	TokenMode: false,
-	Url: false,
+	AppName: TextUtils.i18n('%MODULENAME%/LABEL_APP_NAME'),
+	AuthMode: 0,
+	TokenMode: 0,
+	Url: '',
 	
 	Login: '',
 	HasPassword: false,
 	
 	/**
-	 * Initializes settings of the module.
+	 * Initializes settings from AppData object sections.
 	 * 
-	 * @param {Object} oAppDataSection module section in AppData.
+	 * @param {Object} oAppData Object contained modules settings.
 	 */
-	init: function (oAppDataSection)
+	init: function (oAppData)
 	{
-		if (oAppDataSection)
+		var oAppDataSection = oAppData['%ModuleName%'];
+		
+		if (!_.isEmpty(oAppDataSection))
 		{
-			this.AuthMode = oAppDataSection.AuthMode;
-			this.TokenMode = oAppDataSection.TokenMode;
-			this.Url = oAppDataSection.Url;
-			this.Login = oAppDataSection.Login;
-			this.HasPassword = !!oAppDataSection.HasPassword;
-			this.AppName = oAppDataSection.AppName || TextUtils.i18n('%MODULENAME%/LABEL_APP_NAME');
+			this.EIframeAppAuthMode = Types.pObject(oAppDataSection.EIframeAppAuthMode);
+			this.EIframeAppTokenMode = Types.pObject(oAppDataSection.EIframeAppTokenMode);
 			
-			this.EIframeAppAuthMode = oAppDataSection.EIframeAppAuthMode;
-			this.EIframeAppTokenMode = oAppDataSection.EIframeAppTokenMode;
+			this.AuthMode = Types.pEnum(oAppDataSection.AuthMode, this.EIframeAppAuthMode, this.AuthMode);
+			this.TokenMode = Types.pEnum(oAppDataSection.TokenMode, this.EIframeAppTokenMode, this.TokenMode);
+			this.Url = Types.pString(oAppDataSection.Url, this.Url);
+			this.Login = Types.pString(oAppDataSection.Login, this.Login);
+			this.HasPassword = Types.pBool(oAppDataSection.HasPassword, this.HasPassword);
+			this.AppName = Types.pString(oAppDataSection.AppName, this.AppName);
 		}
 	},
 	
@@ -49,7 +56,10 @@ module.exports = {
 	/**
 	 * Updates admin module settings after editing.
 	 * 
+	 * @param {string} sAppName
 	 * @param {int} iAuthMode
+	 * @param {int} iTokenMode
+	 * @param {string} sUrl
 	 */
 	updateAdmin: function (sAppName, iAuthMode, iTokenMode, sUrl)
 	{
