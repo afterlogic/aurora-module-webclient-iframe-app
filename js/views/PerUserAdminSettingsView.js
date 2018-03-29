@@ -2,6 +2,7 @@
 
 var
 	_ = require('underscore'),
+	$ = require('jquery'),
 	ko = require('knockout'),
 	
 	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
@@ -80,8 +81,8 @@ CPerUserAdminSettingsView.prototype.savePerUserSettings = function()
 	
 	if (this.iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin)
 	{
-		oSettingsData['Login'] = this.login();
-		oSettingsData['Password'] = this.password();
+		oSettingsData['Login'] = $.trim(this.login());
+		oSettingsData['Password'] = $.trim(this.password());
 	}
 	
 	Ajax.send(

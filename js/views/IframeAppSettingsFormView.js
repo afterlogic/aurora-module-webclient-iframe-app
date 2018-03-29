@@ -2,6 +2,7 @@
 
 var
 	_ = require('underscore'),
+	$ = require('jquery'),
 	ko = require('knockout'),
 	
 	ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
@@ -62,11 +63,15 @@ CIframeAppSettingsFormView.prototype.revertGlobalValues = function ()
  */
 CIframeAppSettingsFormView.prototype.getParametersForSave = function ()
 {
-	if (this.pass() !== '******' && this.login() !== '')
+	var
+		sPass = $.trim(this.pass()),
+		sLogin = $.trim(this.login())
+	;
+	if (sPass !== '******' && sLogin !== '')
 	{
 		return {
-			'Login': this.login(),
-			'Password': this.pass()
+			'Login': sLogin,
+			'Password': sPass
 		};
 	}
 	else
