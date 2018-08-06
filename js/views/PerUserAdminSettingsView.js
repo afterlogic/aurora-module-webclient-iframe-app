@@ -6,6 +6,7 @@ var
 	ko = require('knockout'),
 	
 	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
+	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 	
 	Ajax = require('%PathToCoreWebclientModule%/js/Ajax.js'),
 	Api = require('%PathToCoreWebclientModule%/js/Api.js'),
@@ -53,18 +54,21 @@ CPerUserAdminSettingsView.prototype.onRoute = function ()
  */
 CPerUserAdminSettingsView.prototype.requestPerUserSettings = function ()
 {
-	Ajax.send(Settings.ServerModuleName, 'GetPerUserSettings', {'UserId': this.iUserId}, function (oResponse) {
-		if (oResponse.Result)
-		{
-			this.enableModule(oResponse.Result.EnableModule);
-			
-			if (this.iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin)
+	if (Types.isPositiveNumber(this.iUserId))
+	{
+		Ajax.send(Settings.ServerModuleName, 'GetPerUserSettings', {'UserId': this.iUserId}, function (oResponse) {
+			if (oResponse.Result)
 			{
-				this.login(oResponse.Result.Login);
-				this.password(oResponse.Result.HasPassword ? '******' : '');
+				this.enableModule(oResponse.Result.EnableModule);
+
+				if (this.iAuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByAdmin)
+				{
+					this.login(oResponse.Result.Login);
+					this.password(oResponse.Result.HasPassword ? '******' : '');
+				}
 			}
-		}
-	}, this);
+		}, this);
+	}
 };
 
 /**
