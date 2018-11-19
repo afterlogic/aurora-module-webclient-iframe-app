@@ -18,12 +18,12 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
 	public function init() 
 	{
-		$this->extendObject(
-			'Aurora\Modules\Core\Classes\User', 
-			array(
+		\Aurora\Modules\Core\Classes\User::extend(
+			self::GetName(),
+			[
 				'Login' => array('string', ''),
 				'Password' => array('string', '')
-			)
+			]
 		);
 	}
 	
@@ -40,8 +40,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		if (!empty($oUser) && ($oUser->Role === \Aurora\System\Enums\UserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin))
 		{
 			return array(
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+				'Login' => $oUser->{self::GetName().'::Login'},
+				'HasPassword' => (bool) $oUser->{self::GetName().'::Password'},
 				'EIframeAppAuthMode' => (new Enums\AuthMode)->getMap(),
 				'EIframeAppTokenMode' => (new Enums\TokenMode)->getMap(),
 				'AuthMode' => $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication),
@@ -82,8 +82,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 			if ($oUser)
 			{
-				$oUser->{$this->GetName().'::Login'} = $Login;
-				$oUser->{$this->GetName().'::Password'} = $Password;
+				$oUser->{self::GetName().'::Login'} = $Login;
+				$oUser->{self::GetName().'::Password'} = $Password;
 				return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
 			}
 		}
@@ -107,8 +107,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			return array(
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'Password' => $oUser->{$this->GetName().'::Password'},
+				'Login' => $oUser->{self::GetName().'::Login'},
+				'Password' => $oUser->{self::GetName().'::Password'},
 			);
 		}
 		
@@ -134,8 +134,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		{
 			return array(
 				'EnableModule' => $this->isEnabledForEntity($oUser),
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'}
+				'Login' => $oUser->{self::GetName().'::Login'},
+				'HasPassword' => (bool) $oUser->{self::GetName().'::Password'}
 			);
 		}
 		
@@ -165,8 +165,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			
 			if (!empty($Login) && !empty($Password))
 			{
-				$oUser->{$this->GetName().'::Login'} = $Login;
-				$oUser->{$this->GetName().'::Password'} = $Password;
+				$oUser->{self::GetName().'::Login'} = $Login;
+				$oUser->{self::GetName().'::Password'} = $Password;
 				
 				return $oCoreDecorator->UpdateUserObject($oUser);
 			}
