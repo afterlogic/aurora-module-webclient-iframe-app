@@ -56,7 +56,7 @@ module.exports = function (oAppData) {
 			}
 		};
 	}
-	if (App.getUserRole() === Enums.UserRole.NormalUser || App.getUserRole() === Enums.UserRole.Customer)
+	if (App.isUserNormalOrTenant())
 	{
 		return {
 			/**
