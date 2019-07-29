@@ -124,12 +124,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
-		$oUser = null;
-		$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
-		if ($oCoreDecorator)
-		{
-			$oUser = $oCoreDecorator->GetUser($UserId);
-		}
+		$oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserUnchecked($UserId);
 		if ($oUser)
 		{
 			return array(
@@ -153,12 +148,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
-		$oUser = null;
-		$oCoreDecorator = \Aurora\Modules\Core\Module::Decorator();
-		if ($oCoreDecorator)
-		{
-			$oUser = $oCoreDecorator->GetUser($UserId);
-		}
+		$oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserUnchecked($UserId);
 		if ($oUser)
 		{
 			$this->updateEnabledForEntity($oUser, $EnableModule);
@@ -168,7 +158,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 				$oUser->{self::GetName().'::Login'} = $Login;
 				$oUser->{self::GetName().'::Password'} = $Password;
 				
-				return $oCoreDecorator->UpdateUserObject($oUser);
+				return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
 			}
 			
 			return true;
