@@ -118,10 +118,17 @@ CPerUserAdminSettingsView.prototype.savePerUserSettings = function()
 CPerUserAdminSettingsView.prototype.setAccessLevel = function (sEntityType, iEntityId)
 {
 	this.visible(sEntityType === 'User');
-	if (this.iUserId !== iEntityId)
+	if (this.visible())
 	{
-		this.iUserId = iEntityId;
-		this.requestPerUserSettings();
+		if (this.iUserId !== iEntityId)
+		{
+			this.iUserId = iEntityId;
+			this.requestPerUserSettings();
+		}
+	}
+	else
+	{
+		this.iUserId = 0;
 	}
 };
 
