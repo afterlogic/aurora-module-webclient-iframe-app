@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="row q-mb-md" v-if="showTokenMode">
-            <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_AUTH_MODE'"></div>
+            <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_TOKEN_MODE'"></div>
             <div class="col-5 q-ml-xl">
               <q-select outlined dense class="bg-white" v-model="currentTokenMode"
                         :options="tokenModeList"/>
@@ -45,13 +45,14 @@
 </template>
 
 <script>
-import UnsavedChangesDialog from '../../../AdminPanelWebclient/vue/src/components/UnsavedChangesDialog'
+import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
 import settings from '../settings'
 import webApi from 'src/utils/web-api'
 import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
 
 import enums from '../enums'
+import _ from 'lodash'
 const IframeAppAuthMode = enums.getIframeAppAuthMode()
 const IframeAppTokenMode = enums.getIframeAppTokenMode()
 
@@ -59,9 +60,6 @@ export default {
   name: 'IframeAppAdminSettings',
   components: {
     UnsavedChangesDialog,
-  },
-  mounted() {
-    this.populate()
   },
   data () {
     return {
@@ -76,12 +74,29 @@ export default {
       url: ''
     }
   },
+  mounted() {
+    this.populate()
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
+      this.$refs.unsavedChangesDialog.openConfirmDiscardChangesDialog(next)
+    } else {
+      next()
+    }
+  },
   computed: {
     showTokenMode() {
       return this.currentModeAuth.value !== IframeAppAuthMode.NoAuthentication
     }
   },
   methods: {
+    hasChanges() {
+      const data = settings.getIframeAppSettings()
+      return this.url !== data.url ||
+          this.appName !== data.appName ||
+          this.currentModeAuth.value !== data.authMode ||
+          this.currentTokenMode.value !== data.tokenMode
+    },
     save() {
       if (!this.saving) {
         this.saving = true

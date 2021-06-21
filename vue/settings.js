@@ -12,12 +12,12 @@ class IframeAppSettings {
 
     const iframeAppWebclientData = typesUtils.pObject(appData.IframeAppWebclient)
     if (!_.isEmpty(iframeAppWebclientData)) {
-      this.appName = iframeAppWebclientData.AppName
+      this.appName = typesUtils.pString(iframeAppWebclientData.AppName)
       this.authMode = typesUtils.pEnum(iframeAppWebclientData.AuthMode, IframeAppAuthMode)
-      this.hasPassword = iframeAppWebclientData.HasPassword
-      this.login = iframeAppWebclientData.Login
+      this.hasPassword = typesUtils.pBool(iframeAppWebclientData.HasPassword)
+      this.login = typesUtils.pString(iframeAppWebclientData.Login)
       this.tokenMode = typesUtils.pEnum(iframeAppWebclientData.TokenMode, IframeAppTokenMode)
-      this.url = iframeAppWebclientData.Url
+      this.url = typesUtils.pString(iframeAppWebclientData.Url)
     }
   }
 
