@@ -2,17 +2,21 @@ import _ from 'lodash'
 
 import typesUtils from 'src/utils/types'
 
+import enums from './enums'
+// enums is not initialized yet so we cannot get IframeAppAuthMode and IframeAppTokenMode here
+
 class IframeAppSettings {
   constructor (appData) {
+    const IframeAppAuthMode = enums.getIframeAppAuthMode()
+    const IframeAppTokenMode = enums.getIframeAppTokenMode()
+
     const iframeAppWebclientData = typesUtils.pObject(appData.IframeAppWebclient)
     if (!_.isEmpty(iframeAppWebclientData)) {
       this.appName = iframeAppWebclientData.AppName
-      this.authMode = iframeAppWebclientData.AuthMode
-      this.eIframeAppAuthMode = iframeAppWebclientData.EIframeAppAuthMode
-      this.eIframeAppTokenMode = iframeAppWebclientData.EIframeAppTokenMode
+      this.authMode = typesUtils.pEnum(iframeAppWebclientData.AuthMode, IframeAppAuthMode)
       this.hasPassword = iframeAppWebclientData.HasPassword
       this.login = iframeAppWebclientData.Login
-      this.tokenMode = iframeAppWebclientData.TokenMode
+      this.tokenMode = typesUtils.pEnum(iframeAppWebclientData.TokenMode, IframeAppTokenMode)
       this.url = iframeAppWebclientData.Url
     }
   }
@@ -29,6 +33,7 @@ let settings = null
 
 export default {
   init (appData) {
+    enums.init(appData) // should be done before settings initialization
     settings = new IframeAppSettings(appData)
   },
   saveIframeAppSettings (data) {

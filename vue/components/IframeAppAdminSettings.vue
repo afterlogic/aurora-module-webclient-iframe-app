@@ -51,6 +51,10 @@ import webApi from 'src/utils/web-api'
 import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
 
+import enums from '../enums'
+const IframeAppAuthMode = enums.getIframeAppAuthMode()
+const IframeAppTokenMode = enums.getIframeAppTokenMode()
+
 export default {
   name: 'IframeAppAdminSettings',
   components: {
@@ -65,8 +69,6 @@ export default {
       authMode: 0,
       tokenMode: 0,
       authModeList: [],
-      iframeAppAuthMode: {},
-      iframeAppTokenMode: {},
       currentModeAuth: '',
       currentTokenMode: '',
       tokenModeList: [],
@@ -76,7 +78,7 @@ export default {
   },
   computed: {
     showTokenMode() {
-      return this.currentModeAuth.value !== this.iframeAppAuthMode.NoAuthentication
+      return this.currentModeAuth.value !== IframeAppAuthMode.NoAuthentication
     }
   },
   methods: {
@@ -115,8 +117,6 @@ export default {
     },
     populate() {
       const data = settings.getIframeAppSettings()
-      this.iframeAppAuthMode = data.eIframeAppAuthMode
-      this.iframeAppTokenMode = data.eIframeAppTokenMode
       this.appName = data.appName
       this.url = data.url
       this.authMode = data.authMode
@@ -130,19 +130,19 @@ export default {
       return [
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_NO_AUTH'),
-          value: this.iframeAppAuthMode.NoAuthentication
+          value: IframeAppAuthMode.NoAuthentication
         },
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_AURORA_CREDS'),
-          value: this.iframeAppAuthMode.AuroraUserCredentials
+          value: IframeAppAuthMode.AuroraUserCredentials
         },
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_CUSTOM_CREDS_BY_USER'),
-          value: this.iframeAppAuthMode.CustomCredentialsSetByUser
+          value: IframeAppAuthMode.CustomCredentialsSetByUser
         },
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_CUSTOM_CREDS_BY_ADMIN'),
-          value: this.iframeAppAuthMode.CustomCredentialsSetByAdmin
+          value: IframeAppAuthMode.CustomCredentialsSetByAdmin
         }
       ]
     },
@@ -159,15 +159,15 @@ export default {
       return [
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_COOKIE_ONLY'),
-          value: this.iframeAppTokenMode.CookieOnly
+          value: IframeAppTokenMode.CookieOnly
         },
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_GET_REQUEST'),
-          value: this.iframeAppTokenMode.GETRequest
+          value: IframeAppTokenMode.GETRequest
         },
         {
           label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_POST_REQUEST'),
-          value: this.iframeAppTokenMode.POSTRequest
+          value: IframeAppTokenMode.POSTRequest
         }
       ]
     },
