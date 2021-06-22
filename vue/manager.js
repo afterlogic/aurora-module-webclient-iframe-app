@@ -19,4 +19,21 @@ export default {
       },
     ]
   },
+  getAdminUserTabs () {
+    return [
+      {
+        tabName: 'iframe-app-webclient-user',
+        paths: [
+          'id/:id/iframe-app-webclient-user',
+          'search/:search/id/:id/iframe-app-webclient-user',
+          'page/:page/id/:id/iframe-app-webclient-user',
+          'search/:search/page/:page/id/:id/iframe-app-webclient-user',
+        ],
+        title: 'AFTERLOGICDOWNLOADSWEBCLIENT.LABEL_SETTINGS_TAB',
+        component () {
+          return import('src/../../../IframeAppWebClient/vue/components/IframeAppAdminSettingsPerUser')
+        }
+      }
+    ]
+  },
 }
