@@ -99,28 +99,30 @@ export default {
       })
     },
     updateSettingsForEntity () {
-      this.saving = true
-      const parameters = {
-        UserId: this.user?.id,
-        TenantId: this.user.tenantId,
-        EnableModule: typesUtils.pBool(this.enableIframeApp),
-      }
-      webApi.sendRequest({
-        moduleName: 'IframeAppWebclient',
-        methodName: 'UpdatePerUserSettings',
-        parameters
-      }).then(result => {
-        this.saving = false
-        if (result) {
-          this.getPerUserSettings()
-          notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
-        } else {
-          notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
+      if (!this.saving) {
+        this.saving = true
+        const parameters = {
+          UserId: this.user?.id,
+          TenantId: this.user.tenantId,
+          EnableModule: typesUtils.pBool(this.enableIframeApp),
         }
-      }, response => {
-        this.saving = false
-        notification.showError(errors.getTextFromResponse(response, this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED')))
-      })
+        webApi.sendRequest({
+          moduleName: 'IframeAppWebclient',
+          methodName: 'UpdatePerUserSettings',
+          parameters
+        }).then(result => {
+          this.saving = false
+          if (result) {
+            this.getPerUserSettings()
+            notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
+          } else {
+            notification.showError(this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED'))
+          }
+        }, response => {
+          this.saving = false
+          notification.showError(errors.getTextFromResponse(response, this.$t('COREWEBCLIENT.ERROR_SAVING_SETTINGS_FAILED')))
+        })
+      }
     },
     getPerUserSettings () {
       const parameters = {
