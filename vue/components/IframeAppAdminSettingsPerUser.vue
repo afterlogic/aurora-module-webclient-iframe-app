@@ -1,21 +1,15 @@
 <template>
   <q-scroll-area class="full-height full-width">
-    <div class="q-pa-md">
+    <div class="q-pa-lg">
       <div class="row q-mb-md">
-        <div class="col text-h5">
-          <div class="q-my-sm">{{ $t('IFRAMEAPPWEBCLIENT.HEADING_SETTINGS_TAB') }}</div>
-        </div>
+        <div class="col text-h5">{{ $t('IFRAMEAPPWEBCLIENT.HEADING_SETTINGS_TAB') }}</div>
       </div>
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
-          <div class="row">
-            <q-item>
-              <q-item-section>
-                <q-checkbox v-model="enableIframeApp" color="teal">
-                  <q-item-label v-t="'IFRAMEAPPWEBCLIENT.LABEL_ALLOW_IFRAMEAPP'"/>
-                </q-checkbox>
-              </q-item-section>
-            </q-item>
+          <div class="row q-my-sm">
+            <q-checkbox dense v-model="enableIframeApp" color="teal">
+              <q-item-label v-t="'IFRAMEAPPWEBCLIENT.LABEL_ALLOW_IFRAMEAPP'"/>
+            </q-checkbox>
           </div>
         </q-card-section>
       </q-card>

@@ -8,33 +8,33 @@
         <q-card-section>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_APP_NAME'"></div>
-            <div class="col-5 q-ml-xl">
+            <div class="col-5">
               <q-input outlined dense class="bg-white" v-model="appName" @keyup.enter="save"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_AUTH_MODE'"></div>
-            <div class="col-5 q-ml-xl">
+            <div class="col-5">
               <q-select outlined dense class="bg-white" v-model="currentModeAuth"
                         :options="authModeList"/>
             </div>
           </div>
           <div class="row q-mb-md" v-if="showTokenMode">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_TOKEN_MODE'"></div>
-            <div class="col-5 q-ml-xl">
+            <div class="col-5">
               <q-select outlined dense class="bg-white" v-model="currentTokenMode"
                         :options="tokenModeList"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_IFRAME_URL'"></div>
-            <div class="col-5 q-ml-xl">
+            <div class="col-5">
               <q-input outlined dense class="bg-white" v-model="url" @keyup.enter="save"/>
             </div>
           </div>
         </q-card-section>
       </q-card>
-      <div class="q-pa-md text-right">
+      <div class="q-pt-md text-right">
         <q-btn unelevated no-caps dense class="q-px-sm" :ripple="false" color="primary" @click="save"
                :label="saving ? $t('COREWEBCLIENT.ACTION_SAVE_IN_PROGRESS') : $t('COREWEBCLIENT.ACTION_SAVE')">
         </q-btn>
