@@ -82,11 +82,9 @@ export default {
       }
     },
     populate () {
-      this.loading = true
       const currentTenantId = core.getCurrentTenantId()
       cache.getUser(currentTenantId, this.user.id).then(({ user, userId }) => {
         if (userId === this.user.id) {
-          this.loading = false
           if (user && _.isFunction(user?.getData)) {
             this.user = user
           } else {
@@ -122,6 +120,7 @@ export default {
       }
     },
     getPerUserSettings () {
+      this.loading = true
       const parameters = {
         UserId: this.user?.id,
         TenantId: this.user.tenantId,
@@ -131,6 +130,7 @@ export default {
         methodName: 'GetPerUserSettings',
         parameters
       }).then(result => {
+        this.loading = false
         if (result) {
           this.enableIframeApp = result.EnableModule
           this.enableIframeAppFromServer = result.EnableModule
