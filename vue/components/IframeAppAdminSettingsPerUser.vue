@@ -82,7 +82,7 @@ export default {
       }
     },
     populate () {
-      const currentTenantId = core.getCurrentTenantId()
+      const currentTenantId = this.$store.getters['tenants/getCurrentTenantId']
       cache.getUser(currentTenantId, this.user.id).then(({ user, userId }) => {
         if (userId === this.user.id) {
           if (user && _.isFunction(user?.getData)) {
