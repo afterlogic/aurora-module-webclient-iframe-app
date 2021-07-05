@@ -14,7 +14,7 @@ export default {
         tabName: 'iframe-app-webclient-system',
         title: 'IFRAMEAPPWEBCLIENT.LABEL_SETTINGS_TAB',
         component () {
-          return import('src/../../../IframeAppWebclient/vue/components/IframeAppAdminSettings')
+          return import('./components/IframeAppAdminSettings')
         },
       },
     ]
@@ -31,7 +31,7 @@ export default {
         ],
         title: 'AFTERLOGICDOWNLOADSWEBCLIENT.LABEL_SETTINGS_TAB',
         component () {
-          return import('src/../../../IframeAppWebClient/vue/components/IframeAppAdminSettingsPerUser')
+          return import('./components/IframeAppAdminSettingsPerUser')
         }
       }
     ]
