@@ -9,27 +9,27 @@
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_APP_NAME'"></div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" v-model="appName" @keyup.enter="save"/>
+              <q-input outlined dense bg-color="white" v-model="appName" @keyup.enter="save"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_AUTH_MODE'"></div>
             <div class="col-5">
-              <q-select outlined dense class="bg-white" v-model="currentModeAuth"
+              <q-select outlined dense bg-color="white" v-model="currentModeAuth"
                         :options="authModeList"/>
             </div>
           </div>
           <div class="row q-mb-md" v-if="showTokenMode">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_TOKEN_MODE'"></div>
             <div class="col-5">
-              <q-select outlined dense class="bg-white" v-model="currentTokenMode"
+              <q-select outlined dense bg-color="white" v-model="currentTokenMode"
                         :options="tokenModeList"/>
             </div>
           </div>
           <div class="row q-mb-md">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_IFRAME_URL'"></div>
             <div class="col-5">
-              <q-input outlined dense class="bg-white" v-model="url" @keyup.enter="save"/>
+              <q-input outlined dense bg-color="white" v-model="url" @keyup.enter="save"/>
             </div>
           </div>
         </q-card-section>
