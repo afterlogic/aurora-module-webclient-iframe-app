@@ -22,7 +22,6 @@
     <q-inner-loading style="justify-content: flex-start;" :showing="loading || saving">
       <q-linear-progress query />
     </q-inner-loading>
-    <UnsavedChangesDialog ref="unsavedChangesDialog"/>
   </q-scroll-area>
 </template>
 
@@ -35,15 +34,10 @@ import typesUtils from 'src/utils/types'
 import webApi from 'src/utils/web-api'
 
 import cache from 'src/cache'
-import core from 'src/core'
-
-import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
 
 export default {
   name: 'IframeAppAdminSerringsPerUser',
-  components: {
-    UnsavedChangesDialog
-  },
+
   data () {
     return {
       saving: false,
@@ -52,26 +46,39 @@ export default {
       enableIframeAppFromServer: false
     }
   },
+
   watch: {
     $route (to, from) {
       this.parseRoute()
     },
   },
+
   mounted () {
     this.parseRoute()
     this.getPerUserSettings()
   },
+
   beforeRouteLeave (to, from, next) {
-    if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
-      this.$refs.unsavedChangesDialog.openConfirmDiscardChangesDialog(next)
-    } else {
-      next()
-    }
+    this.doBeforeRouteLeave(to, from, next)
   },
+
   methods: {
+    /**
+     * Method is used in doBeforeRouteLeave mixin
+     */
     hasChanges () {
       return this.enableIframeApp !== this.enableIframeAppFromServer
     },
+
+    /**
+     * Method is used in doBeforeRouteLeave mixin,
+     * do not use async methods - just simple and plain reverting of values
+     * !! hasChanges method must return true after executing revertChanges method
+     */
+    revertChanges () {
+      this.enableIframeApp = this.enableIframeAppFromServer
+    },
+
     parseRoute () {
       const userId = typesUtils.pPositiveInt(this.$route?.params?.id)
       if (this.user?.id !== userId) {

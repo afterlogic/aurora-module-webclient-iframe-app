@@ -40,27 +40,23 @@
         </q-btn>
       </div>
     </div>
-    <UnsavedChangesDialog ref="unsavedChangesDialog"/>
   </q-scroll-area>
 </template>
 
 <script>
-import UnsavedChangesDialog from 'src/components/UnsavedChangesDialog'
-import settings from '../settings'
-import webApi from 'src/utils/web-api'
-import notification from 'src/utils/notification'
 import errors from 'src/utils/errors'
+import notification from 'src/utils/notification'
+import webApi from 'src/utils/web-api'
 
 import enums from '../enums'
-import _ from 'lodash'
+import settings from '../settings'
+
 const IframeAppAuthMode = enums.getIframeAppAuthMode()
 const IframeAppTokenMode = enums.getIframeAppTokenMode()
 
 export default {
   name: 'IframeAppAdminSettings',
-  components: {
-    UnsavedChangesDialog,
-  },
+
   data () {
     return {
       saving: false,
@@ -74,22 +70,25 @@ export default {
       url: ''
     }
   },
+
   mounted() {
     this.populate()
   },
+
   beforeRouteLeave(to, from, next) {
-    if (this.hasChanges() && _.isFunction(this?.$refs?.unsavedChangesDialog?.openConfirmDiscardChangesDialog)) {
-      this.$refs.unsavedChangesDialog.openConfirmDiscardChangesDialog(next)
-    } else {
-      next()
-    }
+    this.doBeforeRouteLeave(to, from, next)
   },
+
   computed: {
     showTokenMode() {
       return this.currentModeAuth.value !== IframeAppAuthMode.NoAuthentication
     }
   },
+
   methods: {
+    /**
+     * Method is used in doBeforeRouteLeave mixin
+     */
     hasChanges() {
       const data = settings.getIframeAppSettings()
       return this.url !== data.url ||
@@ -97,6 +96,16 @@ export default {
           this.currentModeAuth.value !== data.authMode ||
           this.currentTokenMode.value !== data.tokenMode
     },
+
+    /**
+     * Method is used in doBeforeRouteLeave mixin,
+     * do not use async methods - just simple and plain reverting of values
+     * !! hasChanges method must return true after executing revertChanges method
+     */
+    revertChanges () {
+      this.populate()
+    },
+
     save() {
       if (!this.saving) {
         this.saving = true
