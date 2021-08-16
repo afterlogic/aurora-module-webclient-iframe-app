@@ -26,7 +26,7 @@
                         :options="tokenModeList"/>
             </div>
           </div>
-          <div class="row q-mb-md">
+          <div class="row">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_IFRAME_URL'"></div>
             <div class="col-5">
               <q-input outlined dense bg-color="white" v-model="url" @keyup.enter="save"/>

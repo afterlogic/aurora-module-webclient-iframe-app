@@ -6,7 +6,7 @@
       </div>
       <q-card flat bordered class="card-edit-settings">
         <q-card-section>
-          <div class="row q-my-sm">
+          <div class="row">
             <q-checkbox dense v-model="enableIframeApp">
               <q-item-label v-t="'IFRAMEAPPWEBCLIENT.LABEL_ALLOW_IFRAMEAPP'"/>
             </q-checkbox>
