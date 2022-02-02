@@ -29,7 +29,7 @@ export default {
           'page/:page/id/:id/iframe-app-webclient-user',
           'search/:search/page/:page/id/:id/iframe-app-webclient-user',
         ],
-        title: 'AFTERLOGICDOWNLOADSWEBCLIENT.LABEL_SETTINGS_TAB',
+        title: 'IFRAMEAPPWEBCLIENT.LABEL_SETTINGS_TAB',
         component () {
           return import('./components/IframeAppAdminSettingsPerUser')
         }

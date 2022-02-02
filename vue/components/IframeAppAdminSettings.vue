@@ -156,19 +156,19 @@ export default {
     getAuthModeList () {
       return [
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_NO_AUTH'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_NO_AUTH'),
           value: IframeAppAuthMode.NoAuthentication
         },
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_AURORA_CREDS'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_AURORA_CREDS'),
           value: IframeAppAuthMode.AuroraUserCredentials
         },
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_CUSTOM_CREDS_BY_USER'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_CUSTOM_CREDS_BY_USER'),
           value: IframeAppAuthMode.CustomCredentialsSetByUser
         },
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_CUSTOM_CREDS_BY_ADMIN'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_CUSTOM_CREDS_BY_ADMIN'),
           value: IframeAppAuthMode.CustomCredentialsSetByAdmin
         }
       ]
@@ -185,15 +185,15 @@ export default {
     getTokenModeList () {
       return [
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_COOKIE_ONLY'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_COOKIE_ONLY'),
           value: IframeAppTokenMode.CookieOnly
         },
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_GET_REQUEST'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_GET_REQUEST'),
           value: IframeAppTokenMode.GETRequest
         },
         {
-          label: this.$t('AFTERLOGICDOWNLOADSWEBCLIENT.OPTION_POST_REQUEST'),
+          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_POST_REQUEST'),
           value: IframeAppTokenMode.POSTRequest
         }
       ]
