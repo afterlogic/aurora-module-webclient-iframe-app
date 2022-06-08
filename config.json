@@ -1,42 +1,42 @@
 {
-  "Disabled": [
-    false,
-    "bool"
-  ],
-  "Disabled_Description": [
-    "",
-    "string"
-  ],
-  "AppName": [
-    "",
-    "string"
-  ],
-  "AppName_Description": [
-    "",
-    "string"
-  ],
-  "AuthMode": [
-    0,
-    "int"
-  ],
-  "AuthMode_Description": [
-    "",
-    "string"
-  ],
-  "TokenMode": [
-    0,
-    "int"
-  ],
-  "TokenMode_Description": [
-    "",
-    "string"
-  ],
-  "Url": [
-    "",
-    "string"
-  ],
-  "Url_Description": [
-    "",
-    "string"
-  ]
+	"Disabled": [
+		false,
+		"bool"
+	],
+	"Disabled_Description": [
+		"",
+		"string"
+	],
+	"AppName": [
+		"",
+		"string"
+	],
+	"AppName_Description": [
+		"",
+		"string"
+	],
+	"AuthMode": [
+		0,
+		"int"
+	],
+	"AuthMode_Description": [
+		"",
+		"string"
+	],
+	"TokenMode": [
+		0,
+		"int"
+	],
+	"TokenMode_Description": [
+		"",
+		"string"
+	],
+	"Url": [
+		"",
+		"string"
+	],
+	"Url_Description": [
+		"",
+		"string"
+	]
 }
