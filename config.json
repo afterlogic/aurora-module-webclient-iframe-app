@@ -4,7 +4,7 @@
 		"bool"
 	],
 	"Disabled_Description": [
-		"",
+		"Setting to true disables the module",
 		"string"
 	],
 	"AppName": [
@@ -12,7 +12,7 @@
 		"string"
 	],
 	"AppName_Description": [
-		"",
+		"Denotes app name used in the interface for the integrated app",
 		"string"
 	],
 	"AuthMode": [
@@ -20,7 +20,7 @@
 		"int"
 	],
 	"AuthMode_Description": [
-		"",
+		"Defines the mode of sending authentication data into the integrated app",
 		"string"
 	],
 	"TokenMode": [
@@ -28,7 +28,7 @@
 		"int"
 	],
 	"TokenMode_Description": [
-		"",
+		"Defines the mode of sending auth token into the integrated app",
 		"string"
 	],
 	"Url": [
@@ -36,7 +36,7 @@
 		"string"
 	],
 	"Url_Description": [
-		"",
+		"URL of the integrated app",
 		"string"
 	]
 }
