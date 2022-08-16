@@ -1,4 +1,5 @@
 import settings from './settings'
+import store from 'src/store'
 
 import IframeAppAdminSettingsPerUser from './components/IframeAppAdminSettingsPerUser'
 
@@ -24,17 +25,21 @@ export default {
   },
 
   getAdminUserTabs () {
-    return [
-      {
-        tabName: 'iframe-app',
-        tabTitle: 'IFRAMEAPPWEBCLIENT.LABEL_SETTINGS_TAB',
-        tabRouteChildren: [
-          { path: 'id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
-          { path: 'search/:search/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
-          { path: 'page/:page/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
-          { path: 'search/:search/page/:page/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
-        ],
-      },
-    ]
+    const isUserSuperAdmin = store.getters['user/isUserSuperAdmin']
+    if (isUserSuperAdmin) {
+      return [
+        {
+          tabName: 'iframe-app',
+          tabTitle: 'IFRAMEAPPWEBCLIENT.LABEL_SETTINGS_TAB',
+          tabRouteChildren: [
+            { path: 'id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
+            { path: 'search/:search/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
+            { path: 'page/:page/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
+            { path: 'search/:search/page/:page/id/:id/iframe-app', component: IframeAppAdminSettingsPerUser },
+          ],
+        },
+      ]
+    }
+    return []
   },
 }
