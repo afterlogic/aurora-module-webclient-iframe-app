@@ -95,14 +95,21 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 		$iAuthMode = $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication);
-				
-		if (($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin)
-				&& !empty($oUser) && $oUser->isNormalOrTenant())
-		{
-			return array(
-				'Login' => $oUser->{self::GetName().'::Login'},
-				'Password' => $oUser->{self::GetName().'::Password'},
-			);
+			
+		if (!empty($oUser) && $oUser->isNormalOrTenant()) {
+			if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials ) {
+				return [
+					'Login' => $oUser->PublicId,
+					'Password' => '',
+				];
+			} else {
+				if ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
+					return [
+						'Login' => $oUser->{self::GetName().'::Login'},
+						'Password' => $oUser->{self::GetName().'::Password'},
+					];
+				}
+			}
 		}
 		
 		return null;
