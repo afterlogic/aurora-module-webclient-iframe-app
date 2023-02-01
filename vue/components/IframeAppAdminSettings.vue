@@ -18,6 +18,27 @@
               <q-select outlined dense bg-color="white" v-model="currentModeAuth" :options="authModeList" />
             </div>
           </div>
+          <div class="row q-mb-md" v-if="isAuthModeCredentialsSetByAdmin">
+            <div class="col-2 q-my-sm" v-t="'COREWEBCLIENT.LABEL_LOGIN'"></div>
+            <div class="col-5">
+              <q-input outlined dense bg-color="white" v-model="login" ref="login" @keyup.enter="save" />
+            </div>
+          </div>
+          <div class="row q-mb-md" v-if="isAuthModeCredentialsSetByAdmin">
+            <div class="col-2 q-my-sm" v-t="'COREWEBCLIENT.LABEL_PASSWORD'"></div>
+            <div class="col-5">
+              <q-input
+                outlined
+                dense
+                bg-color="white"
+                type="password"
+                autocomplete="new-password"
+                v-model="password"
+                ref="password"
+                @keyup.enter="save"
+              />
+            </div>
+          </div>
           <div class="row q-mb-md" v-if="showTokenMode">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_TOKEN_MODE'"></div>
             <div class="col-5">
@@ -70,6 +91,8 @@ import { isValidHttpURL } from '../utils/validation'
 const IframeAppAuthMode = enums.getIframeAppAuthMode()
 const IframeAppTokenMode = enums.getIframeAppTokenMode()
 
+const FAKE_PASS = '      '
+
 export default {
   name: 'IframeAppAdminSettings',
 
@@ -84,6 +107,8 @@ export default {
       tokenModeList: [],
       appName: '',
       url: '',
+      login: '',
+      password: '',
     }
   },
 
@@ -98,6 +123,9 @@ export default {
   computed: {
     showTokenMode() {
       return this.currentModeAuth.value !== IframeAppAuthMode.NoAuthentication
+    },
+    isAuthModeCredentialsSetByAdmin() {
+      return this.currentModeAuth.value === IframeAppAuthMode.CustomCredentialsSetByAdmin
     },
   },
 
@@ -130,6 +158,20 @@ export default {
         this.$refs.url.$el.focus()
         return false
       }
+      if (this.isAuthModeCredentialsSetByAdmin) {
+        if (this.login.trim() === '') {
+          notification.showError(this.$t('IFRAMEAPPWEBCLIENT.ERROR_LOGIN_EMPTY'))
+          this.$refs.login.$el.focus()
+          return false
+        }
+      }
+      if (this.isAuthModeCredentialsSetByAdmin) {
+        if (this.password === '') {
+          notification.showError(this.$t('IFRAMEAPPWEBCLIENT.ERROR_PASSWORD_EMPTY'))
+          this.$refs.password.$el.focus()
+          return false
+        }
+      }
       return true
     },
 
@@ -141,6 +183,10 @@ export default {
           AuthMode: this.currentModeAuth.value,
           TokenMode: this.currentTokenMode.value,
           Url: this.url,
+        }
+        if (this.isAuthModeCredentialsSetByAdmin) {
+          parameters.Login = this.login
+          parameters.Password = this.password !== FAKE_PASS ? this.password : ''
         }
         webApi
           .sendRequest({
@@ -157,6 +203,8 @@ export default {
                   authMode: this.currentModeAuth.value,
                   tokenMode: this.currentTokenMode.value,
                   url: this.url,
+                  login: this.login,
+                  hasPassword: this.password !== '',
                 })
                 this.populate()
                 notification.showReport(this.$t('COREWEBCLIENT.REPORT_SETTINGS_UPDATE_SUCCESS'))
@@ -178,6 +226,8 @@ export default {
       this.appName = data.appName
       this.url = data.url
       this.authMode = data.authMode
+      this.login = data.login
+      this.password = data.hasPassword ? FAKE_PASS : ''
       this.tokenMode = data.tokenMode
       this.authModeList = this.getAuthModeList()
       this.currentModeAuth = this.getCurrentAuthMode()
