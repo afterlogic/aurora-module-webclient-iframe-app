@@ -24,10 +24,16 @@
               <q-select outlined dense bg-color="white" v-model="currentTokenMode" :options="tokenModeList" />
             </div>
           </div>
-          <div class="row">
+          <div class="row q-mb-sm">
             <div class="col-2 q-my-sm" v-t="'IFRAMEAPPWEBCLIENT.LABEL_IFRAME_URL'"></div>
             <div class="col-5">
               <q-input outlined dense bg-color="white" v-model="url" ref="url" @keyup.enter="save" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-5">
+              <q-item-label caption v-t="'IFRAMEAPPWEBCLIENT.HINT_URL_HTTP_HTTPS'" />
             </div>
           </div>
         </q-card-section>
@@ -121,11 +127,6 @@ export default {
     isValidData() {
       if (!isValidHttpURL(this.url)) {
         notification.showError(this.$t('IFRAMEAPPWEBCLIENT.ERROR_URL_NOT_VALID'))
-        this.$refs.url.$el.focus()
-        return false
-      }
-      if (location.origin.indexOf('https:') === 0 && this.url.indexOf('https:') !== 0) {
-        notification.showError(this.$t('IFRAMEAPPWEBCLIENT.ERROR_URL_NOT_HTTPS'))
         this.$refs.url.$el.focus()
         return false
       }
