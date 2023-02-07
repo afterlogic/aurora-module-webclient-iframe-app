@@ -54,7 +54,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
      * @param string $Password
      * @return bool
      */
-    public function UpdateSettings($AppName = null, $AuthMode = null, $TokenMode = null, $Url = null, $Login = '', $Password = '')
+    public function UpdateSettings($AppName = null, $AuthMode = null, $TokenMode = null, $Url = null, $Login = null, $Password = null)
     {
         if (\is_numeric($AuthMode) && \is_numeric($TokenMode) && $Url) {
             \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
@@ -67,14 +67,12 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             return $this->saveModuleConfig();
         }
 
-        if (!empty($Login) && !empty($Password)) {
-            \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
-            $oUser = \Aurora\System\Api::getAuthenticatedUser();
-            if ($oUser) {
-                $oUser->{self::GetName().'::Login'} = $Login;
-                $oUser->{self::GetName().'::Password'} = $Password;
-                return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
-            }
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
+        $oUser = \Aurora\System\Api::getAuthenticatedUser();
+        if ($oUser && $Login !== null && $Password !== null) {
+            $oUser->{self::GetName().'::Login'} = $Login;
+            $oUser->{self::GetName().'::Password'} = $Password;
+            return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
         }
 
         return false;
