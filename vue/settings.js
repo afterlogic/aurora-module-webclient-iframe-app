@@ -3,7 +3,7 @@ import _ from 'lodash'
 import typesUtils from 'src/utils/types'
 
 import enums from './enums'
-// enums is not initialized yet so we cannot get IframeAppAuthMode and IframeAppTokenMode here
+// enums is not initialized yet, so we cannot get IframeAppAuthMode and IframeAppTokenMode here
 
 class IframeAppSettings {
   constructor(appData) {
@@ -21,13 +21,11 @@ class IframeAppSettings {
     }
   }
 
-  saveIframeAppSettings({ authMode, appName, url, tokenMode, login, hasPassword }) {
+  saveIframeAppSettings({ authMode, appName, url, tokenMode }) {
     this.authMode = authMode
     this.appName = appName
     this.url = url
     this.tokenMode = tokenMode
-    this.login = login
-    this.hasPassword = hasPassword
   }
 }
 
@@ -38,19 +36,24 @@ export default {
     enums.init(appData) // should be done before settings initialization
     settings = new IframeAppSettings(appData)
   },
+
   saveIframeAppSettings(data) {
     settings.saveIframeAppSettings(data)
   },
+
   getIframeAppSettings() {
     return {
       appName: settings.appName,
       authMode: settings.authMode,
       eIframeAppAuthMode: settings.eIframeAppAuthMode,
       eIframeAppTokenMode: settings.eIframeAppTokenMode,
-      hasPassword: settings.hasPassword,
-      login: settings.login,
       tokenMode: settings.tokenMode,
       url: settings.url,
     }
+  },
+
+  isAuthModeCredentialsSetByAdmin() {
+    const IframeAppAuthMode = enums.getIframeAppAuthMode()
+    return settings.authMode === IframeAppAuthMode.CustomCredentialsSetByAdmin
   },
 }

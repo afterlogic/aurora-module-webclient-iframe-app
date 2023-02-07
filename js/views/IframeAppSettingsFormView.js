@@ -12,6 +12,9 @@ var
 	Settings = require('modules/%ModuleName%/js/Settings.js')
 ;
 
+
+const FAKE_PASS = '******';
+
 /**
  * Inherits from CAbstractSettingsFormView that has methods for showing and hiding settings tab,
  * updating settings values on the server, checking if there was changins on the settings page.
@@ -24,7 +27,7 @@ function CIframeAppSettingsFormView()
 
 	this.sAppName = Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB');
 	this.login = ko.observable(Settings.Login);
-	this.pass = ko.observable(Settings.HasPassword ? '******' : '');
+	this.pass = ko.observable(Settings.HasPassword ? FAKE_PASS : '');
 }
 
 _.extendOwn(CIframeAppSettingsFormView.prototype, CAbstractSettingsFormView.prototype);
@@ -53,7 +56,7 @@ CIframeAppSettingsFormView.prototype.getCurrentValues = function ()
 CIframeAppSettingsFormView.prototype.revertGlobalValues = function ()
 {
 	this.login(Settings.Login);
-	this.pass(Settings.HasPassword ? '******' : '');
+	this.pass(Settings.HasPassword ? FAKE_PASS : '');
 };
 
 /**
@@ -63,21 +66,13 @@ CIframeAppSettingsFormView.prototype.revertGlobalValues = function ()
  */
 CIframeAppSettingsFormView.prototype.getParametersForSave = function ()
 {
-	var
-		sPass = $.trim(this.pass()),
-		sLogin = $.trim(this.login())
-	;
-	if (sPass !== '******' && sLogin !== '')
-	{
-		return {
-			'Login': sLogin,
-			'Password': sPass
-		};
+	const parameters = {
+		Login: this.login().trim()
+	};
+	if (this.pass() !== FAKE_PASS) {
+		parameters.Password = this.pass().trim();
 	}
-	else
-	{
-		return {};
-	}
+	return parameters;
 };
 
 /**
