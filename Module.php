@@ -69,9 +69,13 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
-        if ($oUser && $Login !== null && $Password !== null) {
-            $oUser->{self::GetName().'::Login'} = $Login;
-            $oUser->{self::GetName().'::Password'} = $Password;
+        if ($oUser) {
+            if ($Login !== null) {
+                $oUser->{self::GetName().'::Login'} = $Login;
+            }
+            if ($Password !== null) {
+                $oUser->{self::GetName().'::Password'} = $Password;
+            }
             return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
         }
 
