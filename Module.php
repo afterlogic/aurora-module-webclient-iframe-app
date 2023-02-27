@@ -122,7 +122,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 
-        $oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserUnchecked($UserId);
+        $oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserWithoutRoleCheck($UserId);
         if ($oUser) {
             return array(
                 'EnableModule' => $this->isEnabledForEntity($oUser),
@@ -145,7 +145,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 
-        $oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserUnchecked($UserId);
+        $oUser = \Aurora\Modules\Core\Module::Decorator()->GetUserWithoutRoleCheck($UserId);
         if ($oUser) {
             $this->updateEnabledForEntity($oUser, $EnableModule);
 
