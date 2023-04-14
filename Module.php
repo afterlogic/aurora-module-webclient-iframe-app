@@ -21,6 +21,15 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     }
 
     /**
+     *
+     * @return Module
+     */
+    public static function Decorator()
+    {
+        return parent::Decorator();
+    }
+    
+    /**
      * Obtains list of module settings for authenticated user.
      *
      * @return array
@@ -30,7 +39,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
-        if (!empty($oUser) && ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin)) {
+        if ($oUser && ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin)) {
             return array(
                 'Login' => $oUser->{self::GetName().'::Login'},
                 'HasPassword' => (bool) $oUser->{self::GetName().'::Password'},
@@ -94,7 +103,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         $iAuthMode = $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication);
 
-        if (!empty($oUser) && $oUser->isNormalOrTenant()) {
+        if ($oUser && $oUser->isNormalOrTenant()) {
             if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials) {
                 return [
                     'Login' => $oUser->PublicId,
