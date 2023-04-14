@@ -28,7 +28,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         return parent::Decorator();
     }
-    
+
     /**
      * Obtains list of module settings for authenticated user.
      *
