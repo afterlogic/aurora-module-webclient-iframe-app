@@ -12,6 +12,8 @@ namespace Aurora\Modules\IframeAppWebclient;
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
  * @copyright Copyright (c) 2023, Afterlogic Corp.
  *
+ * @property Settings $oModuleSettings
+ *
  * @package Modules
  */
 class Module extends \Aurora\System\Module\AbstractWebclientModule
@@ -54,10 +56,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                 'HasPassword' => (bool) $oUser->{self::GetName().'::Password'},
                 'EIframeAppAuthMode' => (new Enums\AuthMode())->getMap(),
                 'EIframeAppTokenMode' => (new Enums\TokenMode())->getMap(),
-                'AuthMode' => $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication),
-                'TokenMode' => $this->getConfig('TokenMode', 0),
-                'Url' => $this->getConfig('Url', ''),
-                'AppName' => $this->getConfig('AppName', '')
+                'AuthMode' => $this->oModuleSettings->AuthMode,
+                'TokenMode' => $this->oModuleSettings->TokenMode,
+                'Url' => $this->oModuleSettings->Url,
+                'AppName' => $this->oModuleSettings->AppName
             );
         }
 
@@ -110,7 +112,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
 
-        $iAuthMode = $this->getConfig('AuthMode', Enums\AuthMode::NoAuthentication);
+        $iAuthMode = $this->oModuleSettings->AuthMode;
 
         if ($oUser && $oUser->isNormalOrTenant()) {
             if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials) {

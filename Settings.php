@@ -8,6 +8,7 @@
 namespace Aurora\Modules\IframeAppWebclient;
 
 use Aurora\System\SettingsProperty;
+use Aurora\Modules\IframeAppWebclient\Enums;
 
 /**
  * @property bool $Disabled
@@ -35,15 +36,15 @@ class Settings extends \Aurora\System\Module\Settings
                 "Denotes app name used in the interface for the integrated app",
             ),
             "AuthMode" => new SettingsProperty(
-                0,
-                "int",
-                null,
+                Enums\AuthMode::NoAuthentication,
+                "spec",
+                Enums\AuthMode::class,
                 "Defines the mode of sending authentication data into the integrated app",
             ),
             "TokenMode" => new SettingsProperty(
-                0,
+                Enums\TokenMode::CookieOnly,
                 "int",
-                null,
+                Enums\TokenMode::class,
                 "Defines the mode of sending auth token into the integrated app",
             ),
             "Url" => new SettingsProperty(
