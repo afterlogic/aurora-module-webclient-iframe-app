@@ -18,9 +18,7 @@ namespace Aurora\Modules\IframeAppWebclient;
  */
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
-    public function init()
-    {
-    }
+    public function init() {}
 
     /**
      * @return Module
@@ -58,8 +56,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
         if ($oUser && ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin)) {
             return array(
-                'Login' => $oUser->getExtendedProp(self::GetName().'::Login'),
-                'HasPassword' => (bool) $oUser->getExtendedProp(self::GetName().'::Password'),
+                'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
+                'HasPassword' => (bool) $oUser->getExtendedProp(self::GetName() . '::Password'),
                 'EIframeAppAuthMode' => (new Enums\AuthMode())->getMap(),
                 'EIframeAppTokenMode' => (new Enums\TokenMode())->getMap(),
                 'AuthMode' => $this->oModuleSettings->AuthMode,
@@ -97,10 +95,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
         if ($oUser) {
             if ($Login !== null) {
-                $oUser->setExtendedProp(self::GetName().'::Login', $Login);
+                $oUser->setExtendedProp(self::GetName() . '::Login', $Login);
             }
             if ($Password !== null) {
-                $oUser->setExtendedProp(self::GetName().'::Password', $Password);
+                $oUser->setExtendedProp(self::GetName() . '::Password', $Password);
             }
             return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
         }
@@ -129,8 +127,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             } else {
                 if ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
                     return [
-                        'Login' => $oUser->getExtendedProp(self::GetName().'::Login'),
-                        'Password' => $oUser->getExtendedProp(self::GetName().'::Password'),
+                        'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
+                        'Password' => $oUser->getExtendedProp(self::GetName() . '::Password'),
                     ];
                 }
             }
@@ -152,8 +150,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         if ($oUser) {
             return array(
                 'EnableModule' => $this->isEnabledForEntity($oUser),
-                'Login' => $oUser->getExtendedProp(self::GetName().'::Login'),
-                'HasPassword' => (bool) $oUser->getExtendedProp(self::GetName().'::Password')
+                'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
+                'HasPassword' => (bool) $oUser->getExtendedProp(self::GetName() . '::Password')
             );
         }
 
@@ -176,8 +174,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             $this->updateEnabledForEntity($oUser, $EnableModule);
 
             if (!empty($Login) && !empty($Password)) {
-                $oUser->setExtendedProp(self::GetName().'::Login', $Login);
-                $oUser->setExtendedProp(self::GetName().'::Password', $Password);
+                $oUser->setExtendedProp(self::GetName() . '::Login', $Login);
+                $oUser->setExtendedProp(self::GetName() . '::Password', $Password);
 
                 return \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($oUser);
             }
