@@ -189,12 +189,15 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     protected function getUserPassword($user)
     {
         $password = $user->getExtendedProp(self::GetName() . '::Password');
-        $decodedPassword = \Aurora\System\Utils::DecryptValue($password);
-        if (!$decodedPassword) {
-            $this->setUserPassword($user, $password);
-            \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($user);
-        } else {
-            $password = $decodedPassword;
+
+        if (!empty($password)) {
+            $decodedPassword = \Aurora\System\Utils::DecryptValue($password);
+            if (!$decodedPassword) {
+                $this->setUserPassword($user, $password);
+                \Aurora\Modules\Core\Module::Decorator()->UpdateUserObject($user);
+            } else {
+                $password = $decodedPassword;
+            }
         }
 
         return $password;
