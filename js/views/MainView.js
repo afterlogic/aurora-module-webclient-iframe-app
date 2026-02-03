@@ -29,7 +29,7 @@ function CMainView()
 	 */
 	this.browserTitle = ko.observable(TextUtils.i18n('%MODULENAME%/HEADING_BROWSER_TAB'));
 
-	this.sAuthToken = Settings.AuthMode === Enums.IframeAppAuthMode.NoAuthentication ? '' : $.cookie('AuthToken');
+	this.sToken = Settings.AuthMode === Enums.IframeAppAuthMode.NoAuthentication ? '' : Settings.Token;
 	this.iTokenMode = Settings.TokenMode;
 
 	var
@@ -38,9 +38,11 @@ function CMainView()
 		aUrlParams = aFrameUrlParts[1] ? aFrameUrlParts[1].split('&') : []
 	;
 
-	if (this.sAuthToken !== '' && Settings.TokenMode === Enums.IframeAppTokenMode.GETRequest)
+	aUrlParams.push('aurora_user=' + App.getUserPublicId());
+
+	if (this.sToken !== '' && Settings.TokenMode === Enums.IframeAppTokenMode.GETRequest)
 	{
-		aUrlParams.push('aurora_auth_token=' + this.sAuthToken);
+		aUrlParams.push('aurora_token=' + this.sToken);
 	}
 
 	this.sFrameUrl = aFrameUrlParts[0] + (aUrlParams.length > 0 ? '?' + aUrlParams.join('&') : '');

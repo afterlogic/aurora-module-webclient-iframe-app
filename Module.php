@@ -53,9 +53,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 
+        $result = null;
+
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
         if ($oUser && ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin)) {
-            return array(
+            $result = array(
                 'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
                 'HasPassword' => (bool) $this->getUserPassword($oUser),
                 'EIframeAppAuthMode' => (new Enums\AuthMode())->getMap(),
@@ -65,9 +67,13 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                 'Url' => $this->oModuleSettings->Url,
                 'AppName' => $this->oModuleSettings->AppName
             );
+
+            if ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser)) {
+                $result['Token'] = \Aurora\System\Api::EncodeKeyValues(['UserId' => $oUser->Id]);
+            }
         }
 
-        return null;
+        return $result;
     }
 
     /**
@@ -185,6 +191,32 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         return false;
     }
+
+    /**
+     * Checks if provided token is valid and returns user public id if so.
+     *
+     * @param string $Token
+     * @return mixed
+     */
+    public function VerifyToken($Token)
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
+
+        $result = false;
+        
+        $oTokenData = \Aurora\System\Api::DecodeKeyValues($Token);
+
+        if ($oTokenData && isset($oTokenData['UserId'])) {
+            
+            $oUser = \Aurora\System\Api::getUserById($oTokenData['UserId']);
+            if ($oUser) {
+                $result = $oUser->PublicId;
+            }
+        }
+
+        return $result;
+    }
+
 
     protected function getUserPassword($user)
     {

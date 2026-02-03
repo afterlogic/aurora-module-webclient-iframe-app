@@ -14,6 +14,7 @@ module.exports = {
 	AuthMode: 0,
 	TokenMode: 0,
 	Url: '',
+	Token: '',
 	
 	Login: '',
 	HasPassword: false,
@@ -38,6 +39,7 @@ module.exports = {
 			this.Login = Types.pString(oAppDataSection.Login, this.Login);
 			this.HasPassword = Types.pBool(oAppDataSection.HasPassword, this.HasPassword);
 			this.AppName = Types.pString(oAppDataSection.AppName, this.AppName);
+			this.Token = Types.pString(oAppDataSection.Token, this.Token);
 		}
 	},
 	

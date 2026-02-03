@@ -1,14 +1,14 @@
 <div class="screen IframeApp" style="display: none;">
-	<!-- ko if: iTokenMode === Enums.IframeAppTokenMode.POSTRequest && sAuthToken !== '' -->
+	<!-- ko if: iTokenMode === Enums.IframeAppTokenMode.POSTRequest && sToken !== '' -->
 		<form data-bind="attr: {'action': sFrameUrl}, initDom: formDom" target="aurora_app_iframe" method="post">
-			<input type="hidden" name="aurora_auth_token" data-bind="attr: {'value': sAuthToken}" />
+			<input type="hidden" name="aurora_token" data-bind="attr: {'value': sToken}" />
 		</form>
 		<iframe data-bind="initDom: iframeDom" frameborder="0" name="aurora_app_iframe"
 				style="display:block;width:100%;height:100%;overflow:hidden;"
 		></iframe>
 	<!-- /ko -->
 
-	<!-- ko if: iTokenMode !== Enums.IframeAppTokenMode.POSTRequest || !sAuthToken -->
+	<!-- ko if: iTokenMode !== Enums.IframeAppTokenMode.POSTRequest || !sToken -->
 		<iframe data-bind="attr: {'src': sFrameUrl}" frameborder="0"
 				style="display:block;width:100%;height:100%;overflow:hidden;"
 		></iframe>
