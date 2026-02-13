@@ -114,25 +114,31 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
     /**
      * Obtains user credentials.
-     * @return array
+     * 
+     * @param string $Token
+     * @return mixed
      */
-    public function GetCredentials()
+    public function GetCredentials($Token = null)
     {
-        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 
-        $oUser = \Aurora\System\Api::getAuthenticatedUser();
+        $result = null;
+        
+        $oTokenData = \Aurora\System\Api::DecodeKeyValues($Token);
 
-        $iAuthMode = $this->oModuleSettings->AuthMode;
-
-        if ($oUser && $oUser->isNormalOrTenant()) {
-            if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials) {
-                return [
-                    'Login' => $oUser->PublicId,
-                    'Password' => '',
-                ];
-            } else {
-                if ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
-                    return [
+        if ($oTokenData && isset($oTokenData['UserId'])) {
+            
+            $oUser = \Aurora\System\Api::getUserById($oTokenData['UserId']);
+                
+            if ($oUser && $oUser->isNormalOrTenant()) {
+                $iAuthMode = $this->oModuleSettings->AuthMode;
+                if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials) {
+                    $result = [
+                        'Login' => $oUser->PublicId,
+                        'Password' => '',
+                    ];
+                } else if ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
+                    $result = [
                         'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
                         'Password' => $this->getUserPassword($oUser),
                     ];
@@ -140,7 +146,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             }
         }
 
-        return null;
+        return $result;
     }
 
     /**

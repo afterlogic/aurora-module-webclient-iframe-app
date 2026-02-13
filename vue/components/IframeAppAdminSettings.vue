@@ -220,10 +220,6 @@ export default {
     getTokenModeList() {
       return [
         {
-          label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_COOKIE_ONLY'),
-          value: IframeAppTokenMode.CookieOnly,
-        },
-        {
           label: this.$t('IFRAMEAPPWEBCLIENT.OPTION_GET_REQUEST'),
           value: IframeAppTokenMode.GETRequest,
         },

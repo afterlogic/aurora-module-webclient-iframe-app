@@ -42,7 +42,7 @@ class Settings extends \Aurora\System\Module\Settings
                 "Defines the mode of sending authentication data into the integrated app",
             ),
             "TokenMode" => new SettingsProperty(
-                Enums\TokenMode::CookieOnly,
+                Enums\TokenMode::GETRequest,
                 "int",
                 Enums\TokenMode::class,
                 "Defines the mode of sending auth token into the integrated app",
