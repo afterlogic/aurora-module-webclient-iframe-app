@@ -7,6 +7,9 @@
 
 namespace Aurora\Modules\IframeAppWebclient;
 
+use Aurora\Modules\Core\Module as CoreModule;
+use Aurora\System\UserSession;
+
 /**
  * @license https://www.gnu.org/licenses/agpl-3.0.html AGPL-3.0
  * @license https://afterlogic.com/products/common-licensing Afterlogic Software License
@@ -223,6 +226,26 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         return $result;
     }
 
+    /**
+     * 
+     * Checks if provided token is valid and returns auth token for Aurora if so.
+     * 
+     * @param string $Token
+     * @return mixed
+     */
+    public function GetAuthTokenByToken($Token)
+    {
+        $userPublicId = self::VerifyToken($Token);
+        if ($userPublicId) { // Return the auth token for Aurora
+            $oAccount = CoreModule::Decorator()->GetAccountUsedToAuthorize($userPublicId);
+            if ($oAccount) {
+                $aAuthData = UserSession::getTokenData($oAccount);
+                return CoreModule::Decorator()->SetAuthDataAndGetAuthToken($aAuthData);
+            }
+        }
+
+        return false;
+    }
 
     protected function getUserPassword($user)
     {
