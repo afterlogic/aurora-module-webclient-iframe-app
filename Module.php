@@ -235,12 +235,14 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
      */
     public function GetAuthTokenByToken($Token)
     {
-        $userPublicId = self::VerifyToken($Token);
-        if ($userPublicId) { // Return the auth token for Aurora
-            $oAccount = CoreModule::Decorator()->GetAccountUsedToAuthorize($userPublicId);
-            if ($oAccount) {
-                $aAuthData = UserSession::getTokenData($oAccount);
-                return CoreModule::Decorator()->SetAuthDataAndGetAuthToken($aAuthData);
+        if ($this->oModuleSettings->AllowGetAuthTokenByToken) {
+            $userPublicId = self::VerifyToken($Token);
+            if ($userPublicId) { // Return the auth token for Aurora
+                $oAccount = CoreModule::Decorator()->GetAccountUsedToAuthorize($userPublicId);
+                if ($oAccount) {
+                    $aAuthData = UserSession::getTokenData($oAccount);
+                    return CoreModule::Decorator()->SetAuthDataAndGetAuthToken($aAuthData);
+                }
             }
         }
 

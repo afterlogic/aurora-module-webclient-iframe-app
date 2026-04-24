@@ -16,6 +16,7 @@ use Aurora\Modules\IframeAppWebclient\Enums;
  * @property int $AuthMode
  * @property int $TokenMode
  * @property string $Url
+ * @property bool $AllowGetAuthTokenByToken
  */
 
 class Settings extends \Aurora\System\Module\Settings
@@ -53,6 +54,12 @@ class Settings extends \Aurora\System\Module\Settings
                 null,
                 "URL of the integrated app",
             ),
+            "AllowGetAuthTokenByToken" => new SettingsProperty(
+                false,
+                "bool",
+                null,
+                "Setting to true allows getting auth token by token",
+            ),            
         ];
     }
 }
