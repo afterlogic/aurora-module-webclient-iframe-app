@@ -59,7 +59,7 @@ class Settings extends \Aurora\System\Module\Settings
                 "bool",
                 null,
                 "Setting to true allows getting auth token by token",
-            ),            
+            ),
         ];
     }
 }

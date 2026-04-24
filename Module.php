@@ -117,7 +117,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
     /**
      * Obtains user credentials.
-     * 
+     *
      * @param string $Token
      * @return mixed
      */
@@ -126,13 +126,13 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 
         $result = null;
-        
+
         $oTokenData = \Aurora\System\Api::DecodeKeyValues($Token);
 
         if ($oTokenData && isset($oTokenData['UserId'])) {
-            
+
             $oUser = \Aurora\System\Api::getUserById($oTokenData['UserId']);
-                
+
             if ($oUser && $oUser->isNormalOrTenant()) {
                 $iAuthMode = $this->oModuleSettings->AuthMode;
                 if ($iAuthMode === Enums\AuthMode::AuroraUserCredentials) {
@@ -140,7 +140,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
                         'Login' => $oUser->PublicId,
                         'Password' => '',
                     ];
-                } else if ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
+                } elseif ($iAuthMode === Enums\AuthMode::CustomCredentialsSetByUser || $iAuthMode === Enums\AuthMode::CustomCredentialsSetByAdmin) {
                     $result = [
                         'Login' => $oUser->getExtendedProp(self::GetName() . '::Login'),
                         'Password' => $this->getUserPassword($oUser),
@@ -212,11 +212,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 
         $result = false;
-        
+
         $oTokenData = \Aurora\System\Api::DecodeKeyValues($Token);
 
         if ($oTokenData && isset($oTokenData['UserId'])) {
-            
+
             $oUser = \Aurora\System\Api::getUserById($oTokenData['UserId']);
             if ($oUser) {
                 $result = $oUser->PublicId;
@@ -227,9 +227,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     }
 
     /**
-     * 
+     *
      * Checks if provided token is valid and returns auth token for Aurora if so.
-     * 
+     *
      * @param string $Token
      * @return mixed
      */
